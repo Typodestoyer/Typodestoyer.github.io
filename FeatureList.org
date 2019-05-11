@@ -3,17 +3,13 @@
 #+EMAIL:joshuadunbrack@gmail.com
 #+LANGUAGE: en
 #+TITLE: Hacknet Extensions Guide, Beautified
-#+OPTIONS: email:t todo:nil ^:nil \n:t H:5 num:nil toc:t
-#+BEGIN_COMMENT
-#+LATEX_HEADER: \input{C:/Users/"Joshua Dunbrack"/.emacs.d/org-mode/tex-header.tex}
-#+LATEX_HEADER: \usepackage{indentfirst}
-#+LATEX_CLASS: article
-#+END_COMMENT
+#+OPTIONS: email:t todo:nil ^:nil \n:t H:5 num:nil
+#+EXPORT_FILE_NAME: index.html
 * Document Notes
   The raw XML has been modified (reformatted manually) to fit within 80 characters.
   There are no guarantees that it still works, and may have different newlines than intended.
   As such, use the provided custom templates or the pastebin links as a starting point rather than the inline XML.
-* HacknetExtension
+* DONE HacknetExtension
   Each categorized entry represents a child element of HacknetExtension.
   Any included options are text inside of the element.
 ** General Info
@@ -191,7 +187,7 @@
 
      </HacknetExtension>
    #+END_SRC
-* Computer
+* DONE Computer
 ** Computer Tag Attributes
 *** id
     The id of the computer. Used to reference it elsewhere.
@@ -233,13 +229,14 @@
     + "empty" also works to generate no junk/IRC
 *** Example
     #+BEGIN_SRC nxml
-    <Computer id="advExamplePC" 
-          name="Extension Example PC" 
-          ip="167.194.132.7"
-          security="2"
-          allowsDefaultBootModule="false"
-          icon="chip" 
-          type="1" > 
+	  <Computer
+	      id="advExamplePC" 
+	      name="Extension Example PC" 
+	      ip="167.194.132.7"
+	      security="2"
+	      allowsDefaultBootModule="false"
+	      icon="chip" 
+	      type="1" > 
     #+END_SRC
 ** Security Features
 *** adminPass
@@ -248,7 +245,7 @@
      + pass
 **** Example
      #+BEGIN_SRC nxml
-     <adminPass pass="password" />
+       <adminPass pass="password"/>
      #+END_SRC
 *** account
     Create secondary accounts for the computer.
@@ -264,15 +261,21 @@
        - 3: MISSIONLIST (For mission listing server accounts)
 **** Example
      #+BEGIN_SRC nxml
-     <account username="Matt" password="testpass" type="ALL" />
-     <account username="mailGuy" password="mailPass" type="2" />
+       <account
+	   username="Matt"
+	   password="testpass"
+	   type="ALL" />
+       <account
+	   username="mailGuy"
+	   password="mailPass"
+	   type="2" />
      #+END_SRC
 *** TODO ports
     Comma-separated list of port numbers
     Valid options: 21, 22, 25, 80, 1433, 104, 6881, 443, 192
 **** Example
      #+BEGIN_SRC nxml
-     <ports>21, 22, 25, 80, 1433, 104, 6881, 443, 192, 554</ports>
+       <ports>21, 22, 25, 80, 1433, 104, 6881, 443, 192, 554</ports>
      #+END_SRC
 *** portsForCrack
     The number of ports needed to run PortHack.
@@ -281,7 +284,7 @@
      + val
 **** Example
      #+BEGIN_SRC nxml
-     <portsForCrack val="0" />
+       <portsForCrack val="0" />
      #+END_SRC
 *** proxy
     Creates (or negates) a proxy on the computer.
@@ -291,7 +294,7 @@
        - Set to -1 to remove.
 **** Example
      #+BEGIN_SRC nxml
-     <proxy time="2" />
+       <proxy time="2" />
      #+END_SRC
 *** firewall
     Creates (or negates) a firewall on the computer
@@ -304,7 +307,10 @@
        - How much time is added at each analyze step
 **** Example
      #+BEGIN_SRC nxml
-     <firewall level="6" solution="Scypio" additionalTime="1.0"/>
+       <firewall
+	   level="6"
+	   solution="Scypio"
+	   additionalTime="1.0"/>
      #+END_SRC
 *** trace
     Creates (or negates) a trace.
@@ -313,7 +319,7 @@
        - The length of the trace in seconds, -1 to remove
 **** Example
      #+BEGIN_SRC nxml
-     <trace time="5678" />
+       <trace time="5678" />
      #+END_SRC
 *** admin
     Creates an admin who monitors the computer.
@@ -328,10 +334,16 @@
        - Whether or not the player gets admin removed once achieving admin.
 **** Example
      #+BEGIN_SRC nxml
-     <admin type="fast" resetPassword="false" isSuper="false"/>
-     <admin type="fast" resetPassword="true" isSuper="true" />
-     <admin type="progress" />
-     <admin type="none"/>
+       <admin
+	   type="fast"
+	   resetPassword="false"
+	   isSuper="false"/>
+       <admin
+	   type="fast"
+	   resetPassword="true"
+	   isSuper="true" />
+       <admin type="progress" />
+       <admin type="none"/>
      #+END_SRC
 *** portRemap
     Remaps default port values to custom values.
@@ -339,7 +351,7 @@
     Left-hand side is default port value or name (ssh,ftp,web,torrent,medical,smtp,sql)
 **** Example
      #+BEGIN_SRC nxml
-     <portRemap>web=1234,22=2</portRemap>
+       <portRemap>web=1234,22=2</portRemap>
      #+END_SRC
 *** tracker
     Does the player get hacked if they leave logs downloading/deleting files?
@@ -347,7 +359,7 @@
     Attempts to reset player by default, or ETAS if "CSEC_Member" flag is attached.
 **** Example
      #+BEGIN_SRC nxml
-     <tracker />
+       <tracker />
      #+END_SRC
 ** Links and Positioning
 *** dlink
@@ -358,7 +370,7 @@
        - The ID of the target computer
 **** Example
      #+BEGIN_SRC nxml
-     <dlink target="advExamplePC2" />
+       <dlink target="advExamplePC2" />
      #+END_SRC
 *** eosDevice
     An EOS device can have internal note, mail, and file tags.
@@ -383,18 +395,31 @@
        - The password to the email account
 **** Example
      #+BEGIN_SRC nxml
-<eosDevice name="Deliliah's ePhone 4S" id="eosIntroPhone"
-icon="ePhone2" empty="true" passOverride="notAlpine">
-    <note>TestNote
-More text</note>
-    <note>Note filenames
-Note filenames are generated automatically by taking the first line of the file
-(in this case "Note Filenames") and replacing spaces with underscores.</note>
-    <mail username="test@jmail.com" pass="thisIstheaccountpass" />
-    <mail username="test2@jmail.com" pass="YouCanHaveLotsOfThese" />
-    <file path="eos/test" name="crackedFile.txt">This is mostly useful for
-jailbroken phones</file>
-  </eosDevice>
+       <eosDevice
+	   name="Deliliah's ePhone 4S"
+	   id="eosIntroPhone"
+	   icon="ePhone2"
+	   empty="true"
+	   passOverride="notAlpine">
+
+	 <note>TestNote
+       More text</note>
+
+	 <note>Note filenames
+       Note filenames are generated automatically by taking the first line of the file
+       (in this case "Note Filenames") and replacing spaces with underscores.</note>
+
+	 <mail
+	     username="test@jmail.com"
+	     pass="thisIstheaccountpass" />
+	 <mail
+	     username="test2@jmail.com"
+	     pass="YouCanHaveLotsOfThese" />
+  
+	 <file
+	     path="eos/test"
+	     name="crackedFile.txt">This is mostly useful forjailbroken phones</file>
+       </eosDevice>
 #+END_SRC
 *** positionNear
     Positions the computer near the target for cool networks.
@@ -411,7 +436,12 @@ jailbroken phones</file>
        - Prevents stability check to ensure that it is placed close.
 **** Example
      #+BEGIN_SRC nxml
-     <positionNear target="advExamplePC2" position="1" total="3" extraDistance="0.1" force="false"/>
+       <positionNear
+	   target="advExamplePC2"
+	   position="1"
+	   total="3"
+	   extraDistance="0.1"
+	   force="false"/>
      #+END_SRC
 ** Files
 *** file
@@ -424,7 +454,9 @@ jailbroken phones</file>
        - The name of the file
 **** Example
      #+BEGIN_SRC nxml
-	    <file path="home/NewDirectory" name="Test_File">
+       <file
+	   path="home/NewDirectory"
+	   name="Test_File">
        This is a longer file that also creates a new directory
        by adding something to path.
 
@@ -445,8 +477,10 @@ jailbroken phones</file>
        - A filepath to the custom theme xml file
 **** Example
      #+BEGIN_SRC nxml
-     <customthemefile path="sys" name="Custom_x-server.sys"
-                      themePath="Themes/TestTheme2.xml"/>
+       <customthemefile
+	   path="sys"
+	   name="Custom_x-server.sys"
+	   themePath="Themes/TestTheme2.xml"/>
      #+END_SRC
 *** encryptedFile
     Encrypted files can be deciphered DECHead and Decypher
@@ -469,17 +503,31 @@ jailbroken phones</file>
        - If omitted, decryption requires no password.
 **** Example
      #+BEGIN_SRC nxml
-     <encryptedFile path="home" name="encrypted_File.dec" extension=".txt" ip="192.168.1.1" header="This is the header" pass="decryptionPassword">
-    This generates an encrypted file that can be decrypted using the password above. It decrypts to have the extension .txt
-  </encryptedFile>
+       <encryptedFile
+	   path="home"
+	   name="encrypted_File.dec"
+	   extension=".txt"
+	   ip="192.168.1.1"
+	   header="This is the header"
+	   pass="decryptionPassword"> This generates an encrypted file that can be
+	   decrypted using the password above. It decrypts to have the extension .txt
+       </encryptedFile>
 
-  <encryptedFile path="home" name="easy_encrypted_File.dec" ip="192.168.1.1" header="This is the header">
-    By simply not providing a password like this one, it can be decrypted without a password
-  </encryptedFile>
-  
-  <encryptedFile path="home" name="asdf2.dec" ip="192.168.1.1" header="This is the header" pass="password">
-    This is an encrypted file referenced in ExampleMission.xml
-  </encryptedFile>
+       <encryptedFile
+	   path="home"
+	   name="easy_encrypted_File.dec"
+	   ip="192.168.1.1"
+	   header="This is the header"> By simply not providing a password like
+       this one, it can be decrypted without a password
+       </encryptedFile>
+
+       <encryptedFile
+	   path="home"
+	   name="asdf2.dec"
+	   ip="192.168.1.1"
+	   header="This is the header"
+	   pass="password"> This is an encrypted file referenced in ExampleMission.xml
+       </encryptedFile>
      #+END_SRC
 *** (Misc) Wildcard List
 **** Main Game
@@ -613,8 +661,11 @@ jailbroken phones</file>
        - An R,G,B string for the color
 **** Example
      #+BEGIN_SRC nxml
-       <uploadServerDaemon name="Upload Dropbox" folder="Drop" 
-			needsAuth="false" color="204,116,212"/>
+       <uploadServerDaemon
+	   name="Upload Dropbox"
+	   folder="Drop" 
+	   needsAuth="false"
+	   color="204,116,212"/>
      #+END_SRC
 *** addWebServer
     Adds a website front-end to the computer, with HTML support.
@@ -626,8 +677,9 @@ jailbroken phones</file>
        - Real URLs are jank and may not work for everyone, so beware.
 **** Example
      #+BEGIN_SRC nxml
-       <addWebServer name="Website Server"
-		      url="Web/ExampleWebsite/ExampleWebsite.html" />
+       <addWebServer
+	   name="Website Server"
+	   url="Web/ExampleWebsite/ExampleWebsite.html" />
      #+END_SRC
 *** messageBoard
     Creates a \el-style message board hosted on the computer
@@ -678,21 +730,41 @@ jailbroken phones</file>
        - The subject of the email
 **** Example
      #+BEGIN_SRC nxml
-	    <mailServer name="Example Mail Server" color="50,237,212" generateJunk="true">
-	   <email recipient="mailGuy" sender="Sender Guy" subject="Adding an email!">
+       <mailServer
+	   name="Example Mail Server"
+	   color="50,237,212"
+	   generateJunk="true">
+
+	   <email
+	       recipient="mailGuy"
+	       sender="Sender Guy"
+	       subject="Adding an email!">
        This is how you add emails to the mail server - logging in with someone's account
        will show these just like the way the player gets emails.
 	   </email>
-	   <email recipient="mailGuy" sender="Spam" subject="amazing features">
+    
+	   <email
+	       recipient="mailGuy"
+	       sender="Spam"
+	       subject="amazing features">
        You can have as many of these as you want
 	   </email>
-	   <email recipient="Matt" sender="Spam" subject="re: amazing features">
+    
+	   <email
+	       recipient="Matt"
+	       sender="Spam"
+	       subject="re: amazing features">
        Different users too
 	   </email>
-       <email recipient="Matt" sender="Spam" subject="re: re: amazing features">
-       The generateJunk flag will specify if this server will generate junk emails for non-player accounts on it.
+
+	   <email
+	       recipient="Matt"
+	       sender="Spam"
+	       subject="re: re: amazing features">
+       The generateJunk flag will specify if this server will generate junk emails
+       for non-player accounts on it.
 	   </email>
-	 </mailServer>
+       </mailServer>
      #+END_SRC
 *** HeartMonitor
     If killed, flag PatientID:DEAD is added. But don't kill anyone - that is a basegame thing.
@@ -735,14 +807,14 @@ jailbroken phones</file>
        - The rendered title of the server
 **** Example
      #+BEGIN_SRC nxml
-       <variableMissionListingServer name="example listing server"
-				     iconPath="Logo.png"
-				     articleFolderPath="Docs/ListingServerArticles"
-				     color="120,200,2"
-				     assigner="false"
-				     public="true"
-				     title="This is the rendered title of the server"
-				     />
+       <variableMissionListingServer
+	   name="example listing server"
+	   iconPath="Logo.png"
+	   articleFolderPath="Docs/ListingServerArticles"
+	   color="120,200,2"
+	   assigner="false"
+	   public="true"
+	   title="This is the rendered title of the server" />
      #+END_SRC
 *** missionHubServer
     Creates a CSEC-style mission board
@@ -763,13 +835,14 @@ jailbroken phones</file>
        - Whether the player can abandon taken missions
 **** Example
      #+BEGIN_SRC nxml
-       <missionHubServer groupName="ExTech"
-			 serviceName="Example Tech Contract Hub"
-			 missionFolderPath="Missions/Misc"
-			 themeColor="200,10,10"
-			 lineColor="255,80,80"
-			 backgroundColor="20,20,20"
-			 allowAbandon="false"/>
+       <missionHubServer
+	   groupName="ExTech"
+	   serviceName="Example Tech Contract Hub"
+	   missionFolderPath="Missions/Misc"
+	   themeColor="200,10,10"
+	   lineColor="255,80,80"
+	   backgroundColor="20,20,20"
+	   allowAbandon="false"/>
      #+END_SRC
 *** CreditsDaemon
     Loads the credits defined in home/CreditsData.txt
@@ -784,16 +857,17 @@ jailbroken phones</file>
        - A filepath to the action to perform on button press
 **** Example
      #+BEGIN_SRC nxml
-       <CreditsDaemon Title="intro Extension Ending Credits"
-		      ButtonText="Complete"
-       ConditionalActionSetToRunOnButtonPressPath="Actions/CreditsRunActions.xml"/>
+       <CreditsDaemon
+	   Title="intro Extension Ending Credits"
+	   ButtonText="Complete"
+	   ConditionalActionSetToRunOnButtonPressPath="Actions/CreditsRunActions.xml"/>
      #+END_SRC
 *** FastActionHost
     Optimized specifically for hosting delayable actions
     Use if performance issues arise, and *make sure this tag is first* under <Computer>!
 **** Example
      #+BEGIN_SRC nxml
-       <FastActionHost />h
+       <FastActionHost />
      #+END_SRC
 ** Labyrinths Daemons
 *** DHSDaemon
@@ -820,12 +894,27 @@ jailbroken phones</file>
        - R,G,B string for the username color
 **** Example
      #+BEGIN_SRC nxml
-       <DHSDaemon groupName="NewFaction Hub" addsFactionPointOnMissionComplete="true"
-		  autoClearMissionsOanPlayerComplete="true" themeColor="255, 255, 161"
-		  allowContractAbbandon="false">
-	 <agent name="Tyson" pass="rockemsockem" color="209,74,48"/>
-	 <agent name="DependableSkeleton" pass="d832n3msad" color="112,198,255"/>
-	 <agent name="HA0" pass="kolgateryu" color="58,202,146"/>
+       <DHSDaemon
+	   groupName="NewFaction Hub"
+	   addsFactionPointOnMissionComplete="true"
+	   autoClearMissionsOanPlayerComplete="true"
+	   themeColor="255, 255, 161"
+	   allowContractAbbandon="false">
+
+	 <agent
+	     name="Tyson"
+	     pass="rockemsockem"
+	     color="209,74,48"/>
+
+	 <agent
+	     name="DependableSkeleton"
+	     pass="d832n3msad"
+	     color="112,198,255"/>
+
+	 <agent
+	     name="HA0"
+	     pass="kolgateryu"
+	     color="58,202,146"/>
        </DHSDaemon>
      #+END_SRC
 *** CustomConnectDisplayDaemon
@@ -842,13 +931,16 @@ jailbroken phones</file>
      + ShowsTitle
        - Whether the name of the LogoDaemon is displayed
      + TextColor
-       - R,G,B string for the text color
+       - Transparency?,R,G,B string for the text color
      + LogoImagePath
        - A filepath to the image used for the logo
 **** Example
      #+BEGIN_SRC nxml
-       <LogoDaemon Name="Logo Display Test" ShowsTitle="true"
-		   TextColor="0, 220, 220, 200" LogoImagePath="Logo.png">
+       <LogoDaemon
+	   Name="Logo Display Test"
+	   ShowsTitle="true"
+	   TextColor="0, 220, 220, 200"
+	   LogoImagePath="Logo.png">
        Lines
        Here
        Appear under
@@ -868,8 +960,11 @@ jailbroken phones</file>
        - Where the button is aligned; options of "left", "middle", and "right"
 **** Example
      #+BEGIN_SRC nxml
-       <LogoCustomConnectDisplayDaemon logo="Logo.png" title="Logo.png"
-				       overdrawLogo="true" buttonAlignment="left" />
+       <LogoCustomConnectDisplayDaemon
+	   logo="Logo.png"
+	   title="Logo.png"
+	   overdrawLogo="true"
+	   buttonAlignment="left" />
      #+END_SRC
 *** IRCDaemon
     Used for an IRC daemon without associated missions.
@@ -995,10 +1090,15 @@ jailbroken phones</file>
        - CriminalRecord
 **** Example
      #+BEGIN_SRC nxml
-       <DatabaseDaemon Permissions="private" DataType="GitCommitEntry"
-		       Foldername="database" Color="85,0,150"
-		       AdminEmailAccount="Matt@TestExtensionMail.com"
-		       AdminEmailHostID="advExamplePC" Name="Test database">
+       <DatabaseDaemon
+	   Permissions="private"
+	   DataType="GitCommitEntry"
+	   Foldername="database"
+	   Color="85,0,150"
+	   AdminEmailAccount="Matt@TestExtensionMail.com"
+	   AdminEmailHostID="advExamplePC"
+	   Name="Test database">
+
 	 <GitCommitEntry>
 	   <EntryNumber>8613</EntryNumber>
 	   <ChangedFiles>
@@ -1444,8 +1544,8 @@ Simplified Contents:
 
     </Computer>
   #+END_SRC
-* Mission
-  With the exception of the attributes, every section here represents a tag in the mission XML file.
+* DONE Mission
+  With the exception of the attributes and the example, every section here represents a tag in the mission XML file.
 ** Mission Tag Attributes
 *** id
     A unique mission identifier. Not used anywhere in the code - for debugging/testing purposes.
@@ -1457,7 +1557,10 @@ Simplified Contents:
     Prevents check ensuring that the player responded to the right email during mission completion.
 *** Example
     #+BEGIN_SRC nxml
-      <mission id="testMission0" activeCheck="true" shouldIgnoreSenderVerification="false">
+      <mission
+	  id="testMission0"
+	  activeCheck="true"
+	  shouldIgnoreSenderVerification="false">
     #+END_SRC
 ** goals
    The <goals> tag can have any number of <goal> tags, all of which must be completed for the mission to complete.
@@ -1473,7 +1576,11 @@ Simplified Contents:
        - The folder containing the target file
 **** Example
      #+BEGIN_SRC nxml
-       <goal type="filedeletion" target="advExamplePC" file="asdf.txt" path="home"/>
+       <goal
+	   type="filedeletion"
+	   target="advExamplePC"
+	   file="asdf.txt"
+	   path="home"/>
      #+END_SRC
 *** clearfolder
     Delete all files at the target node in path/
@@ -1484,7 +1591,10 @@ Simplified Contents:
        - The folder to be cleared
 **** Example
      #+BEGIN_SRC nxml
-       <goal type="clearfolder" target="advExamplePC" path="home"/>
+       <goal
+	   type="clearfolder"
+	   target="advExamplePC"
+	   path="home"/>
      #+END_SRC
 *** filedownload
     Download the file at the target node, found at path/file
@@ -1497,8 +1607,11 @@ Simplified Contents:
        - The folder containing the target file
 **** Example
      #+BEGIN_SRC nxml
-       <goal type="filedownload" target="advExamplePC"
-	     file="downloadFile.txt" path="home"/>
+       <goal
+	   type="filedownload"
+	   target="advExamplePC"
+	   file="downloadFile.txt"
+	   path="home"/>
      #+END_SRC
 *** filechange
     Add or remove text specified by the keyword from the file at the target node, found at path/file.
@@ -1519,10 +1632,20 @@ Simplified Contents:
        - False by default, optional to specify.
 **** Example
      #+BEGIN_SRC nxml
-       <goal type="filechange" target="advExamplePC" file="changeFile.txt"
-	     path="home" keyword="extension"/>
-       <goal type="filechange" target="advExamplePC" file="changeFile.txt"
-	     path="home" keyword="data" removal="true" caseSensitive="true"/>
+       <goal
+	   type="filechange"
+	   target="advExamplePC"
+	   file="changeFile.txt"
+	   path="home"
+	   keyword="extension"/>
+       <goal
+	   type="filechange"
+	   target="advExamplePC"
+	   file="changeFile.txt"
+	   path="home"
+	   keyword="data"
+	   removal="true"
+	   caseSensitive="true"/>
      #+END_SRC
 *** getadmin
     Get admin access on the target system.
@@ -1585,11 +1708,23 @@ Simplified Contents:
        - Must be included if decrypt="true"
 **** Example
      #+BEGIN_SRC nxml
-       <goal type="fileupload" target="advExamplePC" file="asdf.txt" path="home"
-	     destTarget="introFactionHomeNode" destPath="Drop/Uploads"/>
-       <goal type="fileupload" target="advExamplePC" file="asdf2.dec" path="home"
-	     destTarget="introFactionHomeNode" destPath="home"
-	     decrypt="true" decryptPass="password"/>
+       <goal
+	   type="fileupload"
+	   target="advExamplePC"
+	   file="asdf.txt"
+	   path="home"
+	   destTarget="introFactionHomeNode"
+	   destPath="Drop/Uploads"/>
+
+       <goal
+	   type="fileupload"
+	   target="advExamplePC"
+	   file="asdf2.dec"
+	   path="home"
+	   destTarget="introFactionHomeNode"
+	   destPath="home"
+	   decrypt="true"
+	   decryptPass="password"/>
      #+END_SRC
 *** AddDegree
     Add the degree matching the degree name, uni, and GPA for the provided owner.
@@ -1607,9 +1742,12 @@ Simplified Contents:
        - The gpa associated with the degree
 **** Example
      #+BEGIN_SRC nxml
-       <goal type="AddDegree" owner="John Stalvern"
-	     degree="Masters in Digital Security"
-	     uni="Manchester University" gpa="3.0"/>
+       <goal
+	   type="AddDegree"
+	   owner="John Stalvern"
+	   degree="Masters in Digital Security"
+	   uni="Manchester University"
+	   gpa="3.0"/>
      #+END_SRC
 *** wipedegrees
     Remove all degrees for the provided owner.
@@ -1636,8 +1774,11 @@ Simplified Contents:
        - Medical records are of the form "MedicalRecord - Lastname_Firstname".
 **** Example
      #+BEGIN_SRC nxml
-       <goal type="sendemail" mailServer="jmail"
-	     recipient="mailuser123" subject="Email Subject!"/>
+       <goal
+	   type="sendemail"
+	   mailServer="jmail"
+	   recipient="mailuser123"
+	   subject="Email Subject!"/>
      #+END_SRC
 *** getadminpasswordstring [Labyrinths]
     Must get the admin password string of the target computer.
@@ -1712,16 +1853,117 @@ Simplified Contents:
      8) DreamHead
      9) Userspace
      10) CrashTrack
-   
+*** Example
+    #+BEGIN_SRC nxml
+      <missionStart val="7">changeSong</missionStart>
+      <missionEnd val="1">addRank</missionEnd>
+    #+END_SRC
 ** nextMission
    A filepath to the mission that is loaded upon completion of this mission.
    If no mission should follow this one (e.g. hub server), use "NONE" as the filepath.
    
    *The IsSilent attribute silences THIS mission, not the next mission!*
    IsSilent prevents an email from being sent on load.
+*** Example
+    #+BEGIN_SRC nxml
+      <nextMission IsSilent="false">NONE</nextMission>
+    #+END_SRC
 ** branchMissions
+   Branch missions are all checked when the current mission goals are checked.
+   They are checked in order to see if all goals are completed of any branch.
+   If a branch succeeds, its nextMission will be loaded.
+   Additionally, branch missions are always silent and thus don't send an email.
+   
+   Inside of this tag, multiple <branch> tags should exist containing a filepath to the branching mission files.
+*** Example
+    #+BEGIN_SRC nxml
+      <branchMissions>
+	<branch>Missions/BranchExample/TestBranchMission.xml</branch>
+	<!-- You can have more than one branch mission here -->
+      </branchMissions>
+    #+END_SRC
 ** posting
+   This represents what gets posted to a mission listing board.
+*** Attributes
+    + title
+      - The displayed title of the posting
+    + reqs
+      - Comma separated list of required flags before mission can be accepted
+      - Optional, I assume
+    + requiredRank
+      - The required faction rank of the player to unlock this mission
+      - Must be at least this value
+*** Example
+    #+BEGIN_SRC nxml
+      <posting
+	  title="Do the Extension Test Mission"
+	  reqs="someCustomFlag"
+	  requiredRank="3">
+      This is the body text of the posting that will appear
+      when the mission is clicked on.
+      It should contain a basic outline,
+      with any warnings the player needs.
+
+      Once accepted, the email should contain full details.
+      </posting>
+    #+END_SRC
 ** email
+   Emails are structured as a nested set of tags.
+*** sender
+    The contents of this tag denote who sent the email, as a name which acts like an ID.
+
+    The sender field is *very important* for branching or silent mission chains.
+    Even if this file you're editing isn't the email on the server the player will be responding to, it will still run it's completion checks as long as the player is responding to any email from the same sender.
+    This doesn't affect basic and normal missions, so if you're not doing anything too fancy, don't worry about it.
+*** subject
+    The subject of the email.
+*** body
+    The body of the email. Leave off auto-whitespace, be careful with formatting, and email contents are important.
+*** attachments
+    Clickable items at the bottom of an email with a "+".
+    Keep the number of attachments small to keep the player focused.
+    Multiple types of any attachment are supported.
+    An attachments tag is always needed, even if empty!
+**** note
+     Add a note attachment to your email.
+     + Attribute
+       - title
+	 * The title of the note
+     + Contents
+       - The body of the note
+       - Supports multiple lines, don't have auto-whitespace!
+**** link
+     Add a link to a computer in your email.
+     + Attribute
+       - comp
+	 * The ID of the computer to which you are linking
+**** account
+     Add an account autologin to your email.
+     + Attributes
+       - comp
+	 * The ID of the computer the account information is used on
+       - user
+	 * The username of the account on the computer
+       - pass
+	 * The password of the account on the computer
+*** Example
+    #+BEGIN_SRC nxml
+      <email>
+	<sender>Matt</sender>
+	<subject>Test Mission Email</subject>
+	<body>This is the body of the email.
+      Don't forget to not auto-align your text!
+      Good luck,
+      -Matt
+	</body>
+  
+	<attachments>
+	  <note title="An example note">Note contents</note>
+	  <link comp="missionTestNode" />
+	  <account comp="missionTestNode" user="TestUser" pass="testpass" />      
+	</attachments>
+      </email>
+    #+END_SRC
 ** Example
 Pastebin Link: https://pastebin.com/WtFLbQvH
 Simplified Contents:
@@ -1877,3 +2119,795 @@ Simplified Contents:
       </email>
     </mission>
 #+END_SRC
+* DONE Actions
+  Actions can be triggered as:
+  - MissionStart or MissionEnd functions
+  - Faction rank progressing
+  - ConditionalActionSets having a condition met
+** Action List
+*** RunFunction
+     Runs a mission function - see Mission -> missionStart/missionEnd for the full list.
+**** Attributes
+     + FunctionName
+       - The name of the mission function
+     + FunctionValue
+       - The "val" parameter of the mission function, in quotes.
+**** Example
+     #+BEGIN_SRC nxml
+       <RunFunction FunctionName="changeSong" FunctionValue="6" />
+     #+END_SRC
+*** LoadMission
+    Immediately loads a mission, replacing the current mission and sending the email.
+**** Attributes
+     + MissionName
+       - A filepath to the new mission
+**** Example
+     #+BEGIN_SRC nxml
+       <LoadMission MissionName="Missions/ExampleMission.xml" />
+     #+END_SRC
+*** AddAsset
+    Creates a file with the listed content in the denoted location.
+    This cannot create subfolders - the folder must already exist.
+    For longer files, use CopyAsset and copy from a secret computer.
+**** Attributes
+     + FileName
+       - The name of the file on the system
+     + FileContents
+       - The contents of the file
+       - *Does not support multiple lines* - useful for wildcards
+       - For longer files, use CopyAsset
+     + TargetComp
+       - The ID of the target computer
+     + TargetFolderpath
+       - The path to the folder into which the asset is added
+**** Example
+     #+BEGIN_SRC nxml
+       <AddAsset
+	   FileName="MemForensics.exe"
+	   FileContents="#MEM_FORENSICS_EXE#"
+	   TargetComp="advExamplePC"
+	   TargetFolderpath="bin" />
+     #+END_SRC
+*** CopyAsset
+    Copies a file from one computer to another.
+    This cannot create subfolders - the folder must already exist.
+    Also used for "creating" multi-line files if needed.
+**** Attributes
+     + DestFilePath
+       - A filepath to the copied file on the destination computer
+     + DestComp
+       - The ID of the destination computer
+     + SourceComp
+       - The ID of the source computer
+     + SourceFileName
+       - The name of the file to be copied on the source computer
+     + SourceFilePath
+       - A filepath to the copied file on the source computer
+**** Example
+     #+BEGIN_SRC nxml
+       <CopyAsset
+	   DestFilePath="linkNode1"
+	   DestComp="advExamplePC"
+	   SourceComp="advExamplePC"
+	   SourceFileName="Test_File.txt"
+	   SourceFilePath="home" />
+     #+END_SRC
+*** AddMissionToHubServer
+    Adds a new mission to the hub server.
+    Supports missionHubServer, missionListingServer, and DHSDaemon servers.
+**** Attributes
+     + MissionFilepath
+       - A filepath to the mission xml file to be added
+     + TargetComp
+       - The ID of the hub server
+**** Example
+     #+BEGIN_SRC nxml
+       <AddMissionToHubServer
+	   MissionFilepath="Missions/TestExtensionMission1.xml"
+	   TargetComp="advExamplePC" />
+     #+END_SRC
+*** RemoveMissionFromHubServer
+    Removes a mission from the hub server, if it exists.
+    Supports missionHubServer, missionListingServer, and DHSDaemon servers.
+**** Attributes
+     + MissionFilepath
+       - A filepath to the mission xml file to be removed
+     + TargetComp
+       - The ID of the hub server
+**** Example
+     #+BEGIN_SRC nxml
+       <RemoveMissionFromHubServer
+	   MissionFilepath="Missions/TestExtensionMission1.xml"
+	   TargetComp="advExamplePC" />
+     #+END_SRC
+*** AddThreadToMissionBoard
+    Adds a thread to a /el-style message board.
+    The thread should be properly formatted in UTF-8 plaintext.
+**** Attributes
+     + ThreadFilepath
+       - A filepath to the thread file
+     + TargetComp
+       - The ID of the message board
+**** Example
+     #+BEGIN_SRC nxml
+       <AddThreadToMissionBoard
+	   ThreadFilepath="Nodes/MessageBoardThreads/ExampleThread1.txt"
+	   TargetComp="advExamplePC" />
+     #+END_SRC
+*** AddIRCMessage
+    Adds a message to a DHSDaemon or IRCDaemon IRC.
+    Use @#PLAYERNAME# to notify the player, and @channel to notify everyone.
+    See the example for syntax on adding attachments as IRC messages.
+**** Attributes
+     + Author
+       - The username of the person sending the message
+     + TargetComp
+       - The ID of the IRC server
+     + Delay
+       - The number of seconds until the post appears in the IRC
+       - Use this functionality to chain messages at the start/end of a mission
+**** Example
+     #+BEGIN_SRC nxml
+       <AddIRCMessage Author="HA0" TargetComp="advExamplePC" Delay="3.0">
+       Hey @#PLAYERNAME# - check out the new asset that got added a few lines ago.
+       </AddIRCMessage>
+
+       <AddIRCMessage Author="DependableSkeleton" TargetComp="advExamplePC"
+		      Delay="8.0">@channel this notifies everyone!</AddIRCMessage>
+
+       <AddIRCMessage Author="P4rt1cul4rity" TargetComp="advExamplePC" Delay="3.0">
+       !ATTACHMENT:note#%#Note Title#%#Note Content
+       Note line 2
+       etc</AddIRCMessage>
+
+       <AddIRCMessage Author="P4rt1cul4rity" TargetComp="advExamplePC" Delay="3.0">
+       !ATTACHMENT:link#%#ComputerName#%#123.123.123.123</AddIRCMessage>
+
+       <AddIRCMessage Author="P4rt1cul4rity" TargetComp="advExamplePC" Delay="3.0">
+	 !ATTACHMENT:account#%#TargetCompID#%#69.58.186.118#%#username#%#password
+       </AddIRCMessage>
+     #+END_SRC
+*** CrashComputer
+    Crashes the computer with TargetComp ID.
+    If the target computer is the player's, it will bluescreen it instantly.
+    Other computers will be removed from the netmap for ~15 seconds and DC the player.
+    Leaves a log of who did it - use for secrets, generally, since people will rm * log folders.
+**** Attributes
+     + TargetComp
+       - The ID of the target computer
+     + CrashSource
+       - The ID of the computer that caused the crash
+     + DelayHost
+       - ID of a computer than can host delayable actions
+       - Must be an IRCDaemon or DLCHubServer daemon computer OR FastActionHost
+     + Delay
+       - The number of seconds before the crash occurs
+**** Example
+     #+BEGIN_SRC nxml
+       <CrashComputer
+	   TargetComp="linkNode1"
+	   CrashSource="advExamplePC"
+	   DelayHost="advExamplePC"
+	   Delay="5.5" />
+     #+END_SRC
+*** DeleteFile
+    Deletes a file from the target computer, doing nothing if the file does not exist.
+**** Attributes
+     + TargetComp
+       - The ID of the target computer
+     + FilePath
+       - A filepath to the file to be removed
+     + FileName
+       - The name of the file to be removed
+     + DelayHost
+       - ID of a computer than can host delayable actions
+       - Must be an IRCDaemon or DLCHubServer daemon computer OR FastActionHost
+     + Delay
+       - The number of seconds before the file is deleted
+**** Example
+     #+BEGIN_SRC nxml
+       <DeleteFile
+	   TargetComp="advExamplePC"
+	   FilePath="bin"
+	   FileName="Binary_File"
+	   DelayHost="advExamplePC"
+	   Delay="5.5"/>
+     #+END_SRC
+*** AddConditionalActions
+    Loads in a new set of conditional actions from a file.
+**** Attributes
+     + Filepath
+       - A filepath to the conditional action set xml file
+     + DelayHost
+       - ID of a computer than can host delayable actions
+       - Must be an IRCDaemon or DLCHubServer daemon computer OR FastActionHost
+     + Delay
+       - The number of seconds before the conditional actions are added
+**** Example
+     #+BEGIN_SRC nxml
+       <AddConditionalActions
+	   ilepath="ExampleConditionalActionSet.xml"
+	   DelayHost="advExamplePC"
+	   Delay="5.5"/>
+     #+END_SRC
+*** SaveGame
+    Saves the game for the player.
+    Do this during extremely long missions without other save triggers!
+**** Attributes
+     + DelayHost
+       - ID of a computer than can host delayable actions
+       - Must be an IRCDaemon or DLCHubServer daemon computer OR FastActionHost
+     + Delay
+       - The number of seconds before the crash occurs
+**** Example
+     #+BEGIN_SRC nxml
+       <SaveGame DelayHost="advExamplePC" Delay="20.5"/>
+     #+END_SRC
+*** LaunchHackScript
+    Launches the Hacker script defined. Can be friend or foe.
+    See the Hacker Scripts section for more details on the hacker script itself.
+**** Attributes
+     + Filepath
+       - A filepath to the hacker script to be run
+     + DelayHost
+       - ID of a computer than can host delayable actions
+       - Must be an IRCDaemon or DLCHubServer daemon computer OR FastActionHost
+     + Delay
+       - The number of seconds before the script launches
+     + SourceComp
+       - The ID or IP of the computer running the script
+     + TargetComp
+       - The ID or IP of the computer targeted by the script
+     + RequireLogsOnSource
+       - If true, the script only runs if the source computer has logs of activity by the player
+     + RequireSourceIntact
+       - If true, the script only runs if it has its networking file in /sys
+**** Example
+     #+BEGIN_SRC nxml
+       <LaunchHackScript
+	   Filepath="HackerScripts/ExampleHack.txt"
+	   DelayHost="advExamplePC"
+	   Delay="5.5"
+	   SourceComp="advExamplePC"
+	   TargetComp="playerComp"
+	   RequireLogsOnSource="false"
+	   RequireSourceIntact="true"/>
+     #+END_SRC
+*** SwitchToTheme
+    Switches the player to the listed themes.
+    Themes can be referenced directly (see Computer -> Files -> Wildcard List -> Main Game) or by a path to a custom theme file.
+**** Attributes
+     + ThemePathOrName
+       - Either the direct name of the theme or a path to a custom theme
+     + FlickerInDuration
+       - How long it takes for the new theme to flicker into existence
+     + DelayHost
+       - ID of a computer than can host delayable actions
+       - Must be an IRCDaemon or DLCHubServer daemon computer OR FastActionHost
+     + Delay
+       - The number of seconds before the theme transition begins
+**** Example
+     #+BEGIN_SRC nxml
+       <SwitchToTheme
+	   ThemePathOrName="Themes/ExampleTheme.xml"
+	   FlickerInDuration="3.0"
+	   DelayHost="advExamplePC"
+	   Delay="15.5" />
+     #+END_SRC
+*** StartScreenBleedEffect
+    Begins the screen bleed effect (as the end of the main game)
+    Title and first three lines are shown in alert window.
+    If the screenbleed effect ends, an action can be triggered.
+**** Attributes
+     + AlertTitle
+       - The title associated with the screen bleed effect
+     + CompleteAction
+       - The filepath to an Action XML file
+       - Runs if the screenbleed effect finishes normally
+     + TotalDurationSeconds
+       - How long the effect lasts
+       - Also determines when CompleteAction will run
+     + DelayHost
+       - ID of a computer than can host delayable actions
+       - Must be an IRCDaemon or DLCHubServer daemon computer OR FastActionHost
+     + Delay
+       - The number of seconds before the screenbleed begins
+**** Example
+     #+BEGIN_SRC nxml
+       <StartScreenBleedEffect
+	   AlertTitle="Title"
+	   CompleteAction="Actions/HackerScriptActions.xml"
+	   TotalDurationSeconds="12.5"
+	   DelayHost="advExamplePC"
+	   Delay="3.5">Line one
+       Line two
+       Line Three!</StartScreenBleedEffect>
+     #+END_SRC
+*** CancelScreenBleedEffect
+    Kills an ongoing screenbleed effect.
+**** Attributes
+     + DelayHost
+       - ID of a computer than can host delayable actions
+       - Must be an IRCDaemon or DLCHubServer daemon computer OR FastActionHost
+     + Delay
+       - The number of seconds before the screenbleed ends
+**** Example
+     #+BEGIN_SRC nxml
+       <CancelScreenBleedEffect DelayHost="advExamplePC" Delay="9.5" />
+     #+END_SRC
+*** AppendToFile
+    Appends the tag's contents to the specified files.
+    Useful for adding people to whitelists (#PLAYER_IP#)
+**** Attributes
+     + DelayHost
+       - ID of a computer than can host delayable actions
+       - Must be an IRCDaemon or DLCHubServer daemon computer OR FastActionHost
+     + Delay
+       - The number of seconds before the file is appended to
+     + TargetComp
+       - The ID of the target computer
+     + TargetFolderpath
+       - The folder in which the file is stored
+     + TargetFilename
+       - The name of the file to be appended to
+**** Example
+     #+BEGIN_SRC nxml
+       <AppendToFile
+	   DelayHost="advExamplePC"
+	   Delay="12.5"
+	   TargetComp="advExamplePC"
+	   TargetFolderpath="Whitelist"
+	   TargetFilename="list.txt">#PLAYER_IP#</AppendToFile>
+     #+END_SRC
+*** KillExe
+    Kills all exes that contain the string mentioned.
+    Useful for killing ESequencer (or shells by rival hacker)
+**** Attributes
+     + DelayHost
+       - ID of a computer than can host delayable actions
+       - Must be an IRCDaemon or DLCHubServer daemon computer OR FastActionHost
+     + Delay
+       - The number of seconds before the exe is killed
+     + ExeName
+       - A string contained in the exe name
+       - Use * to kill all running programs
+**** Example
+     #+BEGIN_SRC nxml
+       <KillExe DelayHost="advExamplePC" Delay="15.5" ExeName="ssh" />
+     #+END_SRC
+*** HideNode
+    Hides the target computer node from the netmap if it's visible
+**** Attributes
+     + DelayHost
+       - ID of a computer than can host delayable actions
+       - Must be an IRCDaemon or DLCHubServer daemon computer OR FastActionHost
+     + Delay
+       - The number of seconds before the node is hidden
+     + TargetComp
+       - The ID of the computer to be hidden
+**** Example
+     #+BEGIN_SRC nxml
+       <HideNode DelayHost="advExamplePC" Delay="15.5" TargetComp="advExamplePC" />
+     #+END_SRC
+*** GivePlayerUserAccount
+    Reveals this user account to the player for the purpose of autocomplete
+**** Attributes
+     + DelayHost
+       - ID of a computer than can host delayable actions
+       - Must be an IRCDaemon or DLCHubServer daemon computer OR FastActionHost
+     + Delay
+       - The number of seconds before the player gains access to the account
+     + TargetComp
+       - The ID of the target computer
+     + Username
+       - The username of the account the player gains access to
+**** Example
+     #+BEGIN_SRC nxml
+       <GivePlayerUserAccount
+	   DelayHost="advExamplePC"
+	   Delay="15.5"
+	   TargetComp="advExamplePC"
+	   Username="mailGuy" />
+     #+END_SRC
+*** ChangeIP
+    Changes the IP of the target computer to the new address
+**** Attributes
+     + DelayHost
+       - ID of a computer than can host delayable actions
+       - Must be an IRCDaemon or DLCHubServer daemon computer OR FastActionHost
+     + Delay
+       - The number of seconds before the IP is changed
+     + TargetComp
+       - The ID of the computer whose IP is changed
+     + NewIP
+       - The new IP address for the target computer
+       - Set to be blank or use #RANDOM_IP# for a random one
+**** Example
+     #+BEGIN_SRC nxml
+       <ChangeIP
+	   DelayHost="advExamplePC"
+	   Delay="15.5"
+	   TargetComp="advExamplePC"
+	   NewIP="111.111.123.124" />
+     #+END_SRC
+*** HideAllNodes
+    Hides all visible nodes from the netmap
+**** Attributes
+     + DelayHost
+       - ID of a computer than can host delayable actions
+       - Must be an IRCDaemon or DLCHubServer daemon computer OR FastActionHost
+     + Delay
+       - The number of seconds before the nodes are hidden
+**** Example
+     #+BEGIN_SRC nxml
+       <HideAllNodes DelayHost="advExamplePC" Delay="21.5"/>
+     #+END_SRC
+*** ShowNode
+    Reveals the target node on the netmap
+**** Attributes
+     + DelayHost
+       - ID of a computer than can host delayable actions
+       - Must be an IRCDaemon or DLCHubServer daemon computer OR FastActionHost
+     + Delay
+       - The number of seconds before the node is revealed
+     + Target
+       - The ID of the computer to be revealed
+**** Example
+     #+BEGIN_SRC nxml
+       <ShowNode DelayHost="advExamplePC" Delay="21.5" Target="advExamplePC" />
+     #+END_SRC
+*** SetLock
+    Locks a UI module, making it hidden/visible or not.
+**** Attributes
+     + DelayHost
+       - ID of a computer than can host delayable actions
+       - Must be an IRCDaemon or DLCHubServer daemon computer OR FastActionHost
+     + Delay
+       - The number of seconds before the module is locked
+     + Module
+       - The UI module being locked
+       - Options:
+	 * terminal
+	 * ram
+	 * netmap
+	 * display
+     + isLocked
+       - Whether the module is locked
+     + isHidden
+       - Whether the module is hidden
+**** Example
+     #+BEGIN_SRC nxml
+       <SetLock
+	   DelayHost="advExamplePC"
+	   Delay="21.5"
+	   Module="terminal"
+	   IsLocked="true"
+	   IsHidden="false" />
+     #+END_SRC
+*** ChangeAlertIcon
+    Changes the alert icon to point to a new server.
+    Note that only Labyrinths can support anything other than a mail server.
+    It can point to a mail server, a message board, or either type of IRC server.
+**** Attributes
+     + Target
+       - The ID of the new server that will send notifications
+     + Type
+       - The type of server that is now being used
+       - Options:
+	 * mail
+	 * irc
+	 * irchub
+	 * board
+     + DelayHost
+       - ID of a computer than can host delayable actions
+       - Must be an IRCDaemon or DLCHubServer daemon computer OR FastActionHost
+     + Delay
+       - The number of seconds before the icon is changed
+**** Example
+     #+BEGIN_SRC nxml
+       <ChangeAlertIcon
+	   Target="advExamplePC"
+	   Type="irc"
+	   DelayHost="advExamplePC"
+	   Delay="9.5"/>
+     #+END_SRC
+** ConditionalActionSets
+   Conditional action sets can be loaded in two ways:
+   1) AddConditionalActions action
+   2) loadConditionalActions mission function
+*** OnConnect
+    Triggers when the player connects to the target PC.
+**** Attributes
+     + target
+       - The ID of the machine to connect to
+     + needsMissionComplete
+       - Whether the mission needs to be complete 
+     + requiredFlags
+       - A list of any flags needed as well
+**** Example
+     #+BEGIN_SRC nxml
+       <OnConnect
+	   target="advExamplePC"
+	   needsMissionComplete="true"
+	   requiredFlags="decypher">
+	   <!-- You can put any action that was described in the Actions section here -->
+       </OnConnect>
+     #+END_SRC
+*** HasFlags
+    Triggers when the player has all required flags.
+**** Attributes
+     + requiredFlags
+       - A comma-separated list of necessary flags.
+**** Example
+     #+BEGIN_SRC nxml
+       <HasFlags requiredFlags="decypher,otherFlag">
+	   <!-- Actions here -->
+       </HasFlags>
+     #+END_SRC
+*** OnAdminGained
+    Triggers when the player achieves admin access to the target machine.
+**** Attributes
+     + target
+       - The ID of the machine which requires admin access
+**** Example
+     #+BEGIN_SRC nxml
+       <OnAdminGained target="advExamplePC">
+	   <!-- Actions here -->
+       </OnAdminGained>
+     #+END_SRC
+*** Instantly
+    Triggers immediately.
+    Actions occur in the order they appear in the file.
+**** Attributes
+     + needsMissionComplete
+       - Whether the mission needs to be complete 
+**** Example
+     #+BEGIN_SRC nxml
+       <Instantly>
+	   <!-- Actions here -->
+       </Instantly>
+
+       <Instantly needsMissionComplete="true">
+	   <!--You can also have the needs mission complete flag on instantly actions-->
+	   <AddIRCMessage
+	       Author="DependableSkeleton"
+	       TargetComp="advExamplePC"
+	       Delay="0.3">Second, if mission complete!</AddIRCMessage>
+	 </Instantly>
+     #+END_SRC
+*** DoesNotHaveFlags
+    Triggers when the player has none of the listed flags.
+**** Attributes
+     + Flags
+       - A comma-separated list of flags the player must not have
+**** Example
+     #+BEGIN_SRC nxml
+       <DoesNotHaveFlags Flags="SomeFlag,MoreFlags">
+	   <!-- Actions here -->
+       </DoesNotHaveFlags>
+     #+END_SRC
+*** OnDisconnect
+    Triggers when the player disconnects from the machine.
+    If target is unspecified or set to "NONE", triggers on any disconnect.
+**** Attributes
+     + target
+       - The ID of the computer that the player must disconnect from
+       - If unspecified or "NONE", allows any computer
+**** Example
+     #+BEGIN_SRC nxml
+       <OnDisconnect target="advExamplePC">
+	   <!--Actions here-->
+       </OnDisconnect>
+     #+END_SRC
+*** Example 
+    Hastebin link: https://hastebin.com/rodiyumepa.xml
+    Simplified contents: 
+    #+BEGIN_SRC nxml
+      <ConditionalActions>
+	<OnConnect target="advExamplePC" needsMissionComplete="true"
+		   requiredFlags="decypher">
+	  <AddIRCMessage Author="DependableSkeleton" TargetComp="advExamplePC"
+			 Delay="2.1">
+	  Hey, you're back, having just completed your mission.</AddIRCMessage>
+	</OnConnect>
+
+	<HasFlags requiredFlags="decypher,otherFlag">
+	  <AddIRCMessage Author="DependableSkeleton"
+			 TargetComp="advExamplePC"
+			 Delay="0.1">has some flags!</AddIRCMessage>
+	</HasFlags>
+
+	<OnAdminGained target="advExamplePC">
+	  <AddIRCMessage Author="DependableSkeleton"
+			 TargetComp="advExamplePC"
+			 Delay="2.1">
+	  Wow, nice! You got admin on the example server.</AddIRCMessage>
+	  </OnAdminGained>
+
+	  <Instantly>
+	    <AddIRCMessage Author="DependableSkeleton"
+			   TargetComp="advExamplePC"
+			   Delay="0.1">First!</AddIRCMessage>
+	  </Instantly>
+
+	  <DoesNotHaveFlags Flags="SomeFlag,MoreFlags">
+	    <AddIRCMessage Author="DependableSkeleton"
+			   TargetComp="advExamplePC"
+			   Delay="0.1">doesn't have some other flags!</AddIRCMessage>
+	  </DoesNotHaveFlags>
+
+	  <OnDisconnect>
+	    <AddIRCMessage Author="DependableSkeleton"
+			   TargetComp="advExamplePC"
+			   Delay="0.1">Disconnected!</AddIRCMessage>
+	  </OnDisconnect>
+
+      </ConditionalActions>
+    #+END_SRC
+* TODO Factions
+** Example
+   Pastebin link:
+   Simplified contents:
+   #+BEGIN_SRC nxml
+	<CustomFaction name="Example Faction" id="examplefaction" playerVal="0">
+       <!-- You can change the starting player value with the playerVal field above. -->
+  
+       <!-- A faction is basically just a few things:
+       A name, a number representing the player's position in the faction,
+       and a set of actions that can trigger to make changes to the game state in response to actions.-->
+
+       <!-- The value required conditional action is the most basic one. This triggers once the player's value moves from below this number to equal to or more than it. -->
+       <Action ValueRequired="1">
+	 <!-- Runs a 'mission function' - for a list of these and how to use them, see the example mission file -->
+	 <RunFunction FunctionName="changeSong" FunctionValue="6" />
+
+	 <!-- Immediately loads a mission, replacing whatever's currently there and sending the email. -->
+	 <LoadMission MissionName="Missions/ExampleMission.xml" />
+    
+	 <!-- Creates a file with the listed content on the computer with ID targetComp, in the folder path specified.
+	 The folder specified must exist before this runs!
+	 The file contents field here doesn't support newlines or super long content - this is recommended for just creating items with wildcard data (like programs)
+	 For a complete list of wildcards, see the example computer file-->
+	 <AddAsset FileName="MemForensics.exe" FileContents="#MEM_FORENSICS_EXE#" TargetComp="advExamplePC" TargetFolderpath="bin" />
+  
+	 <!-- This copies a file from one computer to another.
+	 DestFilePath + DestComp are the DESTINATION computer - where the file will end up
+	 SourceFileName, SourceFilePath and SourceComp are the SOURCE computer - where the file exists and is taken from
+	 This will do nothing if the file does not exist to be copied.
+    
+	 This is very useful for adding complex files to a server after the session is created - create a new hidden server that's impossible to
+	 find, define all the files you want on there, then copy them over to where you want later. -->
+	 <CopyAsset DestFilePath="linkNode1" DestComp="advExamplePC" SourceComp="advExamplePC" SourceFileName="Test_File.txt" SourceFilePath="home" />
+  
+	 <!-- This adds a new mission to a hub server. This works for both missionHubServer servers (CSEC Style), missionListingServers (Entropy style)
+	 and also DHSDaemon servers (Bibliotheque style)-->
+	 <!-- CSEC Style: -->
+	 <AddMissionToHubServer MissionFilepath="Missions/TestExtensionMission1.xml" TargetComp="advExamplePC" />
+	 <!-- Bibliotheque Style: Assignment tag is who the mission starts assigned to of the server's user list. If this tag exists, the player cant claim the mission! -->
+	 <!-- note that adding a mission to an entropy style server, you can set the AssignmentTag to be "top" to add to the top of the list. Otherwise it'll be added to the bottom.-->
+	 <AddMissionToHubServer MissionFilepath="Missions/TestExtensionMission1.xml" TargetComp="advExamplePC" AssignmentTag="HA0"/>
+    
+	 <!-- This removes the mission from the hub server, if it exists. Works for all three specified above. -->
+	 <RemoveMissionFromHubServer MissionFilepath="Missions/TestExtensionMission1.xml" TargetComp="advExamplePC" />
+    
+	 <!-- Adds a thread to a /el message board - thread file should be a UFT-8 plaintext document. -->
+	 <AddThreadToMissionBoard ThreadFilepath="Nodes/MessageBoardThreads/ExampleThread1.txt" TargetComp="advExamplePC" />
+    
+	 <!-- Adds a message to a DHSDaemon or IRCDaemon IRC. Delay is seconds until the post appears. -->
+	 <AddIRCMessage Author="HA0" TargetComp="advExamplePC" Delay="3.0">Hey @#PLAYERNAME# - check out the new asset that got added a few lines ago.</AddIRCMessage>
+	 <AddIRCMessage Author="DependableSkeleton" TargetComp="advExamplePC" Delay="8.0">@channel this notifies everyone!</AddIRCMessage>
+    
+	 <!-- Crashes computer with the ID TargetComp. If this is "playerComp" it will crash the player's own computer (bluscreening it) instantly.
+	 If it's another computer, this will remove it from the netmap for 15 seconds or so, and disconnect the player if they were connected to it.
+	 The CrashSource is the ID of a computer that the crash log will point to.
+	 NOTE: Players are very likely to rm * entire log folders, so don't make this part of any critical path - it's almost impossible to find. Secrets only!
+    
+	 ,**** DelayHost is the ID of a computer that can host delayable actions. Valid computers need to have one of these daemons on them:
+	 IRCDaemon or DLCHubServer -->
+	 <CrashComputer TargetComp="linkNode1" CrashSource="advExamplePC" DelayHost="advExamplePC" Delay="5.5" />
+  
+	 <!-- Deletes a file from the target computer. Does nothing if that file does not exist. -->
+	 <DeleteFile TargetComp="advExamplePC" FilePath="bin" FileName="Binary_File" DelayHost="advExamplePC" Delay="5.5"/>
+    
+	 <!-- Loads in a new set of conditional actions from a file. Check out the file listed here for an explanation on what you can do with that -->
+	 <AddConditionalActions Filepath="ExampleConditionalActionSet.xml" DelayHost="advExamplePC" Delay="5.5"/>
+    
+	 <!-- Loads in the Hacker script defined below to execute 5.5 seconds from now, coming from source advExamplePC and targeting playerComp (The player node ID).
+	 These can target whatever you like, and be ally scripts! RequireLogsOnSource means that this will only execute if the source comp has logs on it from the player 
+	 deleting, moving, or copying a file. You can use the ID or the IP for the source and target - either works.
+	 RequireSourceIntact means that if the target is missing it's networking file from /sys, the hack wont happen. This means a crippled computer cant hack you back.-->
+	 <LaunchHackScript Filepath="HackerScripts/ExampleHack.txt" DelayHost="advExamplePC" Delay="5.5" SourceComp="advExamplePC" TargetComp="playerComp" RequireLogsOnSource="false" RequireSourceIntact="true"/>
+    
+	 <!-- Switches to the listed theme. You can specify any of the core Hacknet themes by name directly :
+	 TerminalOnlyBlack, HacknetBlue, HacknetTeal, HacknetYellow, HacknetWhite, HacknetPurple, HacknetMint, HackerGreen 
+	 Or you can specify a path to a custom theme file.-->
+	 <SwitchToTheme ThemePathOrName="Themes/ExampleTheme.xml" FlickerInDuration="3.0" DelayHost="advExamplePC" Delay="15.5" />
+
+	 <!-- Starts a 'screen bleed' effect! This is where the red line moves down from the top of the screen dramatically
+	 The title and the first 3 lines of the content of this tag are what's shown in the bottom left alert window.
+	 The CompleteAction conditional action set is run *only if* the red hits the bottom of the screen and the player runs out of time.
+	 "TotalDurationSeconds" is the total time it takes for the screen bleed to go from top to bottom.
+    
+	 I recommend syncing this up with various other conditions that allow you to cancel the effect if the player completes some task.-->
+	 <StartScreenBleedEffect AlertTitle="Title" CompleteAction="Actions/HackerScriptActions.xml" TotalDurationSeconds="12.5" DelayHost="advExamplePC" Delay="3.5">Line one
+     Line two
+     Line Three!</StartScreenBleedEffect>
+
+	 <!-- Cancels a screen bleed effect started with the tag above -->
+	 <CancelScreenBleedEffect DelayHost="advExamplePC" Delay="9.5" />
+    
+	 <!-- Appends the content of the tag onto the file specified. Useful for adding extra data into things, making the world feel more dynamic, adding people to whitelists etc. -->
+	 <AppendToFile DelayHost="advExamplePC" Delay="12.5" TargetComp="advExamplePC" TargetFolderpath="Whitelist" TargetFilename="list.txt">#PLAYER_IP#</AppendToFile>
+  
+	 <!-- Kills all exes that contain the string mentioned, or * for all.
+	 This is case insensitive. So the following would kill "SSHCrackExe",
+	 but changing it to "s" would kill all exes with an s in their name.
+    
+	 This is useful for doing things like killing ESequencer.exe once it's running,
+	 or having a rival hacker close all of the player's shells.-->
+	 <KillExe DelayHost="advExamplePC" Delay="15.5" ExeName="ssh" />
+  
+	 <!-- This is a big one - Changes the alert icon (top right) to point to a new server!
+	 Target is the ID of the server it should connect to.
+	 Type can be one of 4 options:
+	 mail, irc, irchub, board
+    
+	 Mail is a mail server, like Jmail. If you use this, the mail server that it points to *MUST HAVE A MAIL ACCOUNT FOR THE PLAYER*
+	 If it doesn't, it will crash when the player clicks on the icon and tries to go to their non-existent account.
+    
+	 irc is a standard IRC server. Whenever an IRC log with @#PLAYERNAME# or @Channel in it is added, the player will get a notification.
+	 Labyrinths users only.
+    
+	 irchub is a DLCHubServer like Labyrinths uses. Labyrinths players only.
+    
+	 board is a /el style message board. Whenever a message or thread is added that contains any other the above IRC mention strings, the player will be notified.
+    
+	 IMPORTANT NOTE: Changing the type to anything other than mail is only supported with the Hacknet Labyrinths DLC installed.
+	 -->
+	 <ChangeAlertIcon Target="advExamplePC" Type="mail" DelayHost="advExamplePC" Delay="9.5"/>
+
+
+	 <!-- Hides the target computer node from the netmap if it's visible -->
+	 <HideNode DelayHost="advExamplePC" Delay="15.5" TargetComp="advExamplePC" />
+
+	 <!-- Reveals this user account to the player so it's details show up in the autocomplete options when the player goes to log in. -->
+	 <GivePlayerUserAccount DelayHost="advExamplePC" Delay="15.5" TargetComp="advExamplePC" Username="mailGuy" />
+    
+	 <!-- Changes the IP Address of the computer with ID in targetComp to the new IP address provided -->
+	 <ChangeIP DelayHost="advExamplePC" Delay="15.5" TargetComp="advExamplePC" NewIP="111.111.123.124" />
+
+	 <!-- Changes the player's netmap sorting method, as if they had used NetmapOrganizer. Valid methods are:
+	 scatter,grid,seqgrid,CHAOS-->
+	 <ChangeNetmapSortMethod DelayHost="advExamplePC" Delay="18.5" Method="grid" />
+
+	 <!-- Saves the game! The player should be saved frequently, just incase their power dies or something. If you have extremely long missions
+	 without email replies or any other save triggers, use this to keep the player saved and up to date.-->
+	 <SaveGame DelayHost="advExamplePC" Delay="20.5"/>
+    
+       </Action>
+
+  
+       <!-- This action trigger as soon as the player is given the "decypher" flag -->
+       <Action Flags="decypher">
+	 <AddIRCMessage Author="DependableSkeleton" TargetComp="advExamplePC" Delay="8.0">decypher flag was added!</AddIRCMessage>
+       </Action>
+
+  
+       <!-- And this one only triggers once both the player has the flag, and the score is greater than or equal to the required value -->
+       <Action ValueRequired="5" Flags="decypher">
+	  <AddIRCMessage Author="DependableSkeleton" TargetComp="advExamplePC" Delay="-8.0">negative delay adds it instantly, and backdates the time to make it all fit.</AddIRCMessage>
+       </Action>
+
+
+     </CustomFaction>
+   #+END_SRC
+   
+* Miscellaneous
+** Custom Themes
+** Music
+** People System
+** Websites
+** Replacing Jmail, ISP, Player
+** Hacker Scripts
+** Debug Commands
+** Publishing to Steam Workshop
