@@ -4,13 +4,14 @@
 #+LANGUAGE: en
 #+TITLE: Hacknet Extensions Guide, Beautified
 #+OPTIONS: email:t todo:nil ^:nil \n:t H:5 num:nil
+#+HTML_HEAD: <script> var HS_STARTUP_FOLDED = true; </script>
 #+EXPORT_FILE_NAME: index.html
 * Document Notes
   The raw XML has been modified (reformatted manually) to fit within 80 characters.
   There are no guarantees that it still works, and may have different newlines than intended.
   As such, use the provided custom templates or the pastebin links as a starting point rather than the inline XML.
-* DONE HacknetExtension
-  Each categorized entry represents a child element of HacknetExtension.
+* DONE ExtensionInfo
+  Each categorized entry represents a child element of a HacknetExtension tag.
   Any included options are text inside of the element.
 ** General Info
 *** Language
@@ -33,9 +34,9 @@
 *** StartingVisibleNodes
     A comma-separated list of nodes representing the visible nodes at the start.
 *** StartingMission
-    An (optional) filepath to the starting mission xml file.
+    An (optional) filepath to the starting mission XML file.
 *** StartingActions
-    A filepath to the actions performed at the start of the extension.
+    An filepath to the XML file for the actions performed at the start of the extension.
 *** IntroStartupSong
     The name of the song played at the start of the game.
     Original songs need only their name (e.g. "The_Quickening").
@@ -205,6 +206,8 @@
 *** icon
     The icon displayed for the computer.
     Possible values for just the base game and for DLC-included are below.
+    I believe that leaving it unspecified has its own set of images based on security level.
+    See the reference image below.
     + Base Game
      - laptop
      - chip
@@ -220,6 +223,9 @@
      - DLCPC1
      - DLCPC2
      - DLCServer
+       
+
+       https://i.imgur.com/818RKUM.png
 *** type
     The type of computer, numeric.
     + 1: corporate
@@ -240,9 +246,10 @@
     #+END_SRC
 ** Security Features
 *** adminPass
-    The password to the admin account.
+    Provide a password for the admin account.
 **** Attributes
      + pass
+       - The password for the admin account
 **** Example
      #+BEGIN_SRC nxml
        <adminPass pass="password"/>
@@ -252,7 +259,9 @@
     Multiple account tags permitted.
 **** Attributes
      + username
+       - The username of the secondary account
      + password
+       - The password of the secondary account
      + type
        - Name or number works
        - 0: ADMIN
@@ -270,9 +279,44 @@
 	   password="mailPass"
 	   type="2" />
      #+END_SRC
-*** TODO ports
+*** ports
     Comma-separated list of port numbers
-    Valid options: 21, 22, 25, 80, 1433, 104, 6881, 443, 192
+    List of ports numbers/types, according to Discord.
+    The last four options *cannot be cracked by the player* - there is simply no tool to do so. They either are impenetrable or can be opened by hacker scripts.
+    | Port Type | Port Number            |
+    |-----------+------------------------|
+    |        22 | SSH                    |
+    |        80 | HTTP WebServer         |
+    |        25 | SMTP MailServer        |
+    |        21 | FTP Server             |
+    |      1433 | SQL Server             |
+    |       104 | Medical Services       |
+    |      6881 | BitTorrent             |
+    |       443 | HTTPS (SSL)            |
+    |       192 | Pacific Dedicated      |
+    |       554 | RTSP                   |
+    |       211 | Transfer               |
+    |      9418 | Version Control        |
+    |      3724 | Blizzard Updater       |
+    |      3659 | eOS Connection Manager |
+    
+    Additionally, here are the runtime statistics for the various programs, both used for ports and otherwise. All times are in seconds
+    | Executable                | Runtime | Failtime | Exit Time | Total Time | Notes                                        |
+    | PortHack                  |       6 |          |         5 |         11 |                                              |
+    | SSHCrack.exe              |       8 |          |         0 |          8 |                                              |
+    | FTPBounce.exe             |      15 |          |         0 |         15 |                                              |
+    | SMTPOverflow.exe          |      12 |          |       0.5 |       12.5 |                                              |
+    | WebServerWork.exe         |      14 |          |         1 |         15 |                                              |
+    | SQL_MemCorrupt.exe        |    12.2 |          |         0 |       12.2 |                                              |
+    | Decypher.exe              |    13.5 |      3.5 |   1.2/6.0 |   14.7/9.5 | Second exit time                             |
+    | DECHead.exe               |     3.5 |      3.5 |  10.0/6.0 |   13.5/9.5 | is used on failure                           |
+    | KBT_PortTest.exe          |      22 |        0 |         2 |         24 |                                              |
+    | eosDeviceScan.exe         |       8 |      3.5 |           |            | Fails on no devices, exits on demand         |
+    | TorrentStreamInjector.exe |     4.8 |          |      16.5 |       21.3 |                                              |
+    | SSLTrojan.exe             |      12 |        7 |         3 |         15 |                                              |
+    | FTPSprint.exe             |       7 |          |       0.5 |        7.5 |                                              |
+    | PacificPortcrusher.exe    |       6 |          |       0.5 |        6.5 |                                              |
+    | RTSPCrack.exe             |     6.3 |          |      24.2 |       20.5 | This doesn't add up but I haven't tested it. |
 **** Example
      #+BEGIN_SRC nxml
        <ports>21, 22, 25, 80, 1433, 104, 6881, 443, 192, 554</ports>
@@ -282,6 +326,7 @@
     If >100, "INVIOLABILITY ERROR" message appears.
 **** Attributes
      + val
+       - The number of ports needed
 **** Example
      #+BEGIN_SRC nxml
        <portsForCrack val="0" />
@@ -330,8 +375,9 @@
        - progress: Resets if the player is not admin
        - fast: Resets always? Unsure, unspecified
      + resetPassword
+       - Whether they reset the password
      + isSuper
-       - Whether or not the player gets admin removed once achieving admin.
+       - Whether the player gets admin removed once achieving admin
 **** Example
      #+BEGIN_SRC nxml
        <admin
@@ -433,7 +479,7 @@
      + extraDistance
        - Recommended between -0.6 and 0.3
      + force
-       - Prevents stability check to ensure that it is placed close.
+       - Prevents stability check to ensure that it is placed close
 **** Example
      #+BEGIN_SRC nxml
        <positionNear
@@ -448,7 +494,7 @@
    Contents of the file are internal text.
 **** Attributes
      + path
-       - The path to the file
+       - The path to the file on the computer
        - Can create subfolders like home/sub1/sub2
      + name
        - The name of the file
@@ -603,7 +649,7 @@
 	 * Supports multi-line notes
      + Images
        - Image
-	 * Filepath to the image
+	 * Filepath of the image
 **** Example
      #+BEGIN_SRC nxml
        <memoryDumpFile name="testDump.md" path="home">
@@ -625,25 +671,25 @@
      #+END_SRC
 ** Base-Game Daemons
 *** deathRowDatabase
-    Loads a preset collection of death row records
+    Loads a preset collection of death row records.
 **** Example
      #+BEGIN_SRC nxml
        <deathRowDatabase />
      #+END_SRC
 *** academicDatabase
-    Creates an academic database from the People.All list
+    Creates an academic database from the People.All list.
 **** Example
      #+BEGIN_SRC nxml
        <academicDatabase />
      #+END_SRC
 *** ispSystem
-    Creates an ISP system as used in ETAS
+    Creates an ISP system as used in ETAS.
 **** Example
      #+BEGIN_SRC nxml
        <ispSystem />
      #+END_SRC
 *** MedicalDatabase
-    Creates a medical database from the People.All list
+    Creates a medical database from the People.All list.
 **** Example
      #+BEGIN_SRC nxml
        <MedicalDatabase />
@@ -686,7 +732,7 @@
 **** Attributes
      + name
        - The name of the message board
-**** thread
+**** TODO thread
      + Contains the filepath of the thread
      + Multiple threads supported
      + Create threads from the template thread, it's quite finicky
@@ -713,7 +759,7 @@
      #+END_SRC
 *** mailServer
     Hosts a mail server on the computer.
-    Populate with <email> tags as explained below, with the body as the contents of the tag
+    Populate with <email> tags as explained below, with the body as the contents of the tag.
 **** Attributes
      + name
        - The name of the mail server
@@ -770,32 +816,32 @@
     If killed, flag PatientID:DEAD is added. But don't kill anyone - that is a basegame thing.
 **** Attributes
      + Patient
-       - Patient ID: firstname initial underscore
+       - Patient ID: firstname initial underscore lastname
 **** Example
      #+BEGIN_SRC nxml
        <HeartMonitor patient="J_Stalvern"/>
      #+END_SRC
 *** PointClicker
-    Creates a PointClicker game from the People.All list
+    Creates a PointClicker game from the People.All list.
 **** Example
      #+BEGIN_SRC nxml
        <PointClicker />
      #+END_SRC
 *** SongChangerDaemon
-    Allows the user to interactively change their current song
+    Allows the user to interactively change their current song.
 **** Example
      #+BEGIN_SRC nxml
        <SongChangerDaemon />
      #+END_SRC
 *** variableMissionListingServer
-    This can be used for mission listing (e.g. Entropy) or other news sites (e.g. SlashBot)
+    This can be used for mission listing (e.g. Entropy) or other news sites (e.g. SlashBot).
 **** Attributes
      + name
        - The name of the server
      + iconPath
        - A filepath to the icon for the server
      + articleFolderPath
-       - A path to the folder containing the articles for this server
+       - A folderpath containing the articles for this server
      + color
        - An R,G,B string for the color
      + assigner
@@ -824,7 +870,7 @@
      + serviceName
        - The displayed name of the server
      + missionFolderPath
-       - A filepath to the folder containing the missions for this hub
+       - A folderpath to the folder containing the missions for this hub
      + themeColor
        - An R,G,B string for the general color
      + lineColor
@@ -854,7 +900,7 @@
      + ButtonText
        - The text on the button
      + ConditionalActionSetToRunOnButtonPressPath
-       - A filepath to the action to perform on button press
+       - A filepath to the XML file of actions to perform on button press
 **** Example
      #+BEGIN_SRC nxml
        <CreditsDaemon
@@ -872,7 +918,7 @@
 ** Labyrinths Daemons
 *** DHSDaemon
     An IRC message board which can support missions and messages via factions.
-    Has internal agent tags for other users
+    It has internal agent tags for other users.
 **** Attributes
      + groupName
        - The displayed name of the IRC server
@@ -918,7 +964,7 @@
        </DHSDaemon>
      #+END_SRC
 *** CustomConnectDisplayDaemon
-    Changes the default display to be similar to "ricer" in Labyrinths
+    Changes the default display to be similar to "ricer" in Labyrinths.
 **** Example
      #+BEGIN_SRC nxml
        <CustomConnectDisplayDaemon />
@@ -1122,8 +1168,8 @@
        </DatabaseDaemon>
      #+END_SRC
 ** Example
-Pastebin Link:  https://pastebin.com/NwtgTdPW
-Simplified Contents:
+   Pastebin Link:  https://pastebin.com/NwtgTdPW
+   Simplified Contents:
   #+BEGIN_SRC nxml
     <?xml version = "1.0" encoding = "UTF-8" ?>
     <Computer id="advExamplePC" 
@@ -1730,7 +1776,7 @@ Simplified Contents:
     Add the degree matching the degree name, uni, and GPA for the provided owner.
     An academic computer must exist with the following properties:
     1) ID must be "academic"
-    2) It must contain an Academic Database Daemon
+    2) It must contain an [[*academicDatabase][Academic Database Daemon]]
 **** Additional Attributes
      + owner
        - The owner of the degree
@@ -1753,7 +1799,7 @@ Simplified Contents:
     Remove all degrees for the provided owner.
     An academic computer must exist with the following properties:
     1) ID must be "academic"
-    2) It must contain an Academic Database Daemon   
+    2) It must contain an [[*Example][Academic Database Daemon]]   
 **** Additional Attributes
      + owner
        - The owner of the degree
@@ -1790,11 +1836,11 @@ Simplified Contents:
      #+BEGIN_SRC nxml
        <goal type="getadminpasswordstring" target="advExamplePC"/>
      #+END_SRC
-** missionStart/missionEnd
+** DONE missionStart/missionEnd
    These tags define a function to run at the start or end of the mission.
    The sections (after Attributes) denote different function contents for this tag.
    Note that missionEnd will never run if the mission is abandoned or otherwise lost.
-*** Attributes
+*** DONE Attributes
     + val
       - An attribute that changes in meaning depending on the function
       - Holds an integer value to be passed to the specified function
@@ -1802,7 +1848,7 @@ Simplified Contents:
       - If true, the missionStart will activate on mission send.
       - If false, it will activate on mission load.
 	* Hub missions are loaded when the save game is loaded or a new game is started.
-*** setFaction:FACTION_ID
+*** TODO setFaction:FACTION_ID
     Sets the player's faction to FACTION_ID
 *** addRank
     Adds "val" in rank to the current active faction.
@@ -1829,6 +1875,7 @@ Simplified Contents:
 
 *** loadConditionalActions:Path/To/Actions.xml
     Loads the conditional action set at the provided path.
+    See [[*ConditionalActionSets][ConditionalActionSets]] for more information about conditional actions.
 *** setHubServer:SERVER_ID
     Sets the given server to be the hub server on the map.
     Visually, this adds the little spinny thing.
@@ -2121,12 +2168,12 @@ Simplified Contents:
 #+END_SRC
 * DONE Actions
   Actions can be triggered as:
-  - MissionStart or MissionEnd functions
-  - Faction rank progressing
-  - ConditionalActionSets having a condition met
+  - [[*missionStart/missionEnd][MissionStart/MissionEnd]] functions
+  - [[*Factions][Faction]] files checking for player rank or for a flag
+  - [[*ConditionalActionSets][ConditionalActionSets]] having a condition met
 ** Action List
 *** RunFunction
-     Runs a mission function - see Mission -> missionStart/missionEnd for the full list.
+     Runs a mission function - see [[*missionStart/missionEnd][missionStart/missionEnd]] for the full list.
 **** Attributes
      + FunctionName
        - The name of the mission function
@@ -2137,7 +2184,7 @@ Simplified Contents:
        <RunFunction FunctionName="changeSong" FunctionValue="6" />
      #+END_SRC
 *** LoadMission
-    Immediately loads a mission, replacing the current mission and sending the email.
+     Immediately loads a mission, replacing the current mission and sending the email.
 **** Attributes
      + MissionName
        - A filepath to the new mission
@@ -2148,14 +2195,14 @@ Simplified Contents:
 *** AddAsset
     Creates a file with the listed content in the denoted location.
     This cannot create subfolders - the folder must already exist.
-    For longer files, use CopyAsset and copy from a secret computer.
+    For longer files, use [[*StartingTheme][CopyAsset]] and copy from a secret computer.
 **** Attributes
      + FileName
        - The name of the file on the system
      + FileContents
        - The contents of the file
-       - *Does not support multiple lines* - useful for wildcards
-       - For longer files, use CopyAsset
+       - *Does not support multiple lines* - [[*(Misc) Wildcard List][wildcards]] are useful
+       - For longer files, use [[*Example][CopyAsset]]
      + TargetComp
        - The ID of the target computer
      + TargetFolderpath
@@ -2194,7 +2241,7 @@ Simplified Contents:
      #+END_SRC
 *** AddMissionToHubServer
     Adds a new mission to the hub server.
-    Supports missionHubServer, missionListingServer, and DHSDaemon servers.
+    Supports [[*missionHubServer][missionHubServer]], [[*variableMissionListingServer][variableMissionListingServer]], and [[*DHSDaemon][DHSDaemon]] servers.
 **** Attributes
      + MissionFilepath
        - A filepath to the mission xml file to be added
@@ -2208,7 +2255,7 @@ Simplified Contents:
      #+END_SRC
 *** RemoveMissionFromHubServer
     Removes a mission from the hub server, if it exists.
-    Supports missionHubServer, missionListingServer, and DHSDaemon servers.
+    Supports [[*missionHubServer][missionHubServer]], [[*variableMissionListingServer][variableMissionListingServer]], and [[*DHSDaemon][DHSDaemon]] servers.
 **** Attributes
      + MissionFilepath
        - A filepath to the mission xml file to be removed
@@ -2221,7 +2268,7 @@ Simplified Contents:
 	   TargetComp="advExamplePC" />
      #+END_SRC
 *** AddThreadToMissionBoard
-    Adds a thread to a /el-style message board.
+    Adds a thread to a /el-style [[*messageBoard][message board]].
     The thread should be properly formatted in UTF-8 plaintext.
 **** Attributes
      + ThreadFilepath
@@ -2235,7 +2282,7 @@ Simplified Contents:
 	   TargetComp="advExamplePC" />
      #+END_SRC
 *** AddIRCMessage
-    Adds a message to a DHSDaemon or IRCDaemon IRC.
+    Adds a message to a [[*DHSDaemon][DHSDaemon]] or [[*ExtensionInfo][IRCDaemon]] IRC.
     Use @#PLAYERNAME# to notify the player, and @channel to notify everyone.
     See the example for syntax on adding attachments as IRC messages.
 **** Attributes
@@ -2279,7 +2326,7 @@ Simplified Contents:
        - The ID of the computer that caused the crash
      + DelayHost
        - ID of a computer than can host delayable actions
-       - Must be an IRCDaemon or DLCHubServer daemon computer OR FastActionHost
+       - Must be a [[*FastActionHost][FastActionHost]], [[*IRCDaemon][IRCDaemon]], or [[*DHSDaemon][DHSDaemon]]
      + Delay
        - The number of seconds before the crash occurs
 **** Example
@@ -2301,7 +2348,7 @@ Simplified Contents:
        - The name of the file to be removed
      + DelayHost
        - ID of a computer than can host delayable actions
-       - Must be an IRCDaemon or DLCHubServer daemon computer OR FastActionHost
+       - Must be a [[*FastActionHost][FastActionHost]], [[*IRCDaemon][IRCDaemon]], or [[*DHSDaemon][DHSDaemon]]
      + Delay
        - The number of seconds before the file is deleted
 **** Example
@@ -2315,12 +2362,13 @@ Simplified Contents:
      #+END_SRC
 *** AddConditionalActions
     Loads in a new set of conditional actions from a file.
+    See [[*ConditionalActionSets][here]] for more information about conditional action sets.
 **** Attributes
      + Filepath
        - A filepath to the conditional action set xml file
      + DelayHost
        - ID of a computer than can host delayable actions
-       - Must be an IRCDaemon or DLCHubServer daemon computer OR FastActionHost
+       - Must be a [[*FastActionHost][FastActionHost]], [[*IRCDaemon][IRCDaemon]], or [[*DHSDaemon][DHSDaemon]]
      + Delay
        - The number of seconds before the conditional actions are added
 **** Example
@@ -2336,7 +2384,7 @@ Simplified Contents:
 **** Attributes
      + DelayHost
        - ID of a computer than can host delayable actions
-       - Must be an IRCDaemon or DLCHubServer daemon computer OR FastActionHost
+       - Must be a [[*FastActionHost][FastActionHost]], [[*IRCDaemon][IRCDaemon]], or [[*DHSDaemon][DHSDaemon]]
      + Delay
        - The number of seconds before the crash occurs
 **** Example
@@ -2345,13 +2393,13 @@ Simplified Contents:
      #+END_SRC
 *** LaunchHackScript
     Launches the Hacker script defined. Can be friend or foe.
-    See the Hacker Scripts section for more details on the hacker script itself.
+    See [[*Hacker Scripts][Hacker Scripts]] for more details on the hacker script itself.
 **** Attributes
      + Filepath
        - A filepath to the hacker script to be run
      + DelayHost
        - ID of a computer than can host delayable actions
-       - Must be an IRCDaemon or DLCHubServer daemon computer OR FastActionHost
+       - Must be a [[*FastActionHost][FastActionHost]], [[*IRCDaemon][IRCDaemon]], or [[*DHSDaemon][DHSDaemon]]
      + Delay
        - The number of seconds before the script launches
      + SourceComp
@@ -2375,7 +2423,7 @@ Simplified Contents:
      #+END_SRC
 *** SwitchToTheme
     Switches the player to the listed themes.
-    Themes can be referenced directly (see Computer -> Files -> Wildcard List -> Main Game) or by a path to a custom theme file.
+    Themes can be referenced directly (see [[*Built-In Theme Names][the list of built-in theme names]]) or by a path to a custom theme file.
 **** Attributes
      + ThemePathOrName
        - Either the direct name of the theme or a path to a custom theme
@@ -2383,7 +2431,7 @@ Simplified Contents:
        - How long it takes for the new theme to flicker into existence
      + DelayHost
        - ID of a computer than can host delayable actions
-       - Must be an IRCDaemon or DLCHubServer daemon computer OR FastActionHost
+       - Must be a [[*FastActionHost][FastActionHost]], [[*IRCDaemon][IRCDaemon]], or [[*DHSDaemon][DHSDaemon]]
      + Delay
        - The number of seconds before the theme transition begins
 **** Example
@@ -2409,7 +2457,7 @@ Simplified Contents:
        - Also determines when CompleteAction will run
      + DelayHost
        - ID of a computer than can host delayable actions
-       - Must be an IRCDaemon or DLCHubServer daemon computer OR FastActionHost
+       - Must be a [[*FastActionHost][FastActionHost]], [[*IRCDaemon][IRCDaemon]], or [[*DHSDaemon][DHSDaemon]]
      + Delay
        - The number of seconds before the screenbleed begins
 **** Example
@@ -2428,7 +2476,7 @@ Simplified Contents:
 **** Attributes
      + DelayHost
        - ID of a computer than can host delayable actions
-       - Must be an IRCDaemon or DLCHubServer daemon computer OR FastActionHost
+       - Must be a [[*FastActionHost][FastActionHost]], [[*IRCDaemon][IRCDaemon]], or [[*DHSDaemon][DHSDaemon]]
      + Delay
        - The number of seconds before the screenbleed ends
 **** Example
@@ -2441,7 +2489,7 @@ Simplified Contents:
 **** Attributes
      + DelayHost
        - ID of a computer than can host delayable actions
-       - Must be an IRCDaemon or DLCHubServer daemon computer OR FastActionHost
+       - Must be a [[*FastActionHost][FastActionHost]], [[*IRCDaemon][IRCDaemon]], or [[*DHSDaemon][DHSDaemon]]
      + Delay
        - The number of seconds before the file is appended to
      + TargetComp
@@ -2465,7 +2513,7 @@ Simplified Contents:
 **** Attributes
      + DelayHost
        - ID of a computer than can host delayable actions
-       - Must be an IRCDaemon or DLCHubServer daemon computer OR FastActionHost
+       - Must be a [[*FastActionHost][FastActionHost]], [[*IRCDaemon][IRCDaemon]], or [[*DHSDaemon][DHSDaemon]]
      + Delay
        - The number of seconds before the exe is killed
      + ExeName
@@ -2480,7 +2528,7 @@ Simplified Contents:
 **** Attributes
      + DelayHost
        - ID of a computer than can host delayable actions
-       - Must be an IRCDaemon or DLCHubServer daemon computer OR FastActionHost
+       - Must be a [[*FastActionHost][FastActionHost]], [[*IRCDaemon][IRCDaemon]], or [[*DHSDaemon][DHSDaemon]]
      + Delay
        - The number of seconds before the node is hidden
      + TargetComp
@@ -2494,7 +2542,7 @@ Simplified Contents:
 **** Attributes
      + DelayHost
        - ID of a computer than can host delayable actions
-       - Must be an IRCDaemon or DLCHubServer daemon computer OR FastActionHost
+       - Must be a [[*FastActionHost][FastActionHost]], [[*IRCDaemon][IRCDaemon]], or [[*DHSDaemon][DHSDaemon]]
      + Delay
        - The number of seconds before the player gains access to the account
      + TargetComp
@@ -2514,7 +2562,7 @@ Simplified Contents:
 **** Attributes
      + DelayHost
        - ID of a computer than can host delayable actions
-       - Must be an IRCDaemon or DLCHubServer daemon computer OR FastActionHost
+       - Must be a [[*FastActionHost][FastActionHost]], [[*IRCDaemon][IRCDaemon]], or [[*DHSDaemon][DHSDaemon]]
      + Delay
        - The number of seconds before the IP is changed
      + TargetComp
@@ -2535,7 +2583,7 @@ Simplified Contents:
 **** Attributes
      + DelayHost
        - ID of a computer than can host delayable actions
-       - Must be an IRCDaemon or DLCHubServer daemon computer OR FastActionHost
+       - Must be a [[*FastActionHost][FastActionHost]], [[*IRCDaemon][IRCDaemon]], or [[*DHSDaemon][DHSDaemon]]
      + Delay
        - The number of seconds before the nodes are hidden
 **** Example
@@ -2547,7 +2595,7 @@ Simplified Contents:
 **** Attributes
      + DelayHost
        - ID of a computer than can host delayable actions
-       - Must be an IRCDaemon or DLCHubServer daemon computer OR FastActionHost
+       - Must be a [[*FastActionHost][FastActionHost]], [[*IRCDaemon][IRCDaemon]], or [[*DHSDaemon][DHSDaemon]]
      + Delay
        - The number of seconds before the node is revealed
      + Target
@@ -2561,7 +2609,7 @@ Simplified Contents:
 **** Attributes
      + DelayHost
        - ID of a computer than can host delayable actions
-       - Must be an IRCDaemon or DLCHubServer daemon computer OR FastActionHost
+       - Must be a [[*FastActionHost][FastActionHost]], [[*IRCDaemon][IRCDaemon]], or [[*DHSDaemon][DHSDaemon]]
      + Delay
        - The number of seconds before the module is locked
      + Module
@@ -2587,7 +2635,7 @@ Simplified Contents:
 *** ChangeAlertIcon
     Changes the alert icon to point to a new server.
     Note that only Labyrinths can support anything other than a mail server.
-    It can point to a mail server, a message board, or either type of IRC server.
+    It can point to a [[*mailServer][mail server]], a [[*messageBoard][message board]], or an IRC server [[*DHSDaemon][with]] or [[*IRCDaemon][without]] mission support.
 **** Attributes
      + Target
        - The ID of the new server that will send notifications
@@ -2600,7 +2648,7 @@ Simplified Contents:
 	 * board
      + DelayHost
        - ID of a computer than can host delayable actions
-       - Must be an IRCDaemon or DLCHubServer daemon computer OR FastActionHost
+       - Must be a [[*FastActionHost][FastActionHost]], [[*IRCDaemon][IRCDaemon]], or [[*DHSDaemon][DHSDaemon]]
      + Delay
        - The number of seconds before the icon is changed
 **** Example
@@ -2613,8 +2661,8 @@ Simplified Contents:
      #+END_SRC
 ** ConditionalActionSets
    Conditional action sets can be loaded in two ways:
-   1) AddConditionalActions action
-   2) loadConditionalActions mission function
+   1) [[*AddConditionalActions][AddConditionalActions]] action
+   2) [[*loadConditionalActions:Path/To/Actions.xml][loadConditionalActions]] mission function
 *** OnConnect
     Triggers when the player connects to the target PC.
 **** Attributes
@@ -2744,166 +2792,64 @@ Simplified Contents:
 
       </ConditionalActions>
     #+END_SRC
-* TODO Factions
-** Example
-   Pastebin link:
-   Simplified contents:
-   #+BEGIN_SRC nxml
-	<CustomFaction name="Example Faction" id="examplefaction" playerVal="0">
-       <!-- You can change the starting player value with the playerVal field above. -->
-  
-       <!-- A faction is basically just a few things:
-       A name, a number representing the player's position in the faction,
-       and a set of actions that can trigger to make changes to the game state in response to actions.-->
-
-       <!-- The value required conditional action is the most basic one. This triggers once the player's value moves from below this number to equal to or more than it. -->
-       <Action ValueRequired="1">
-	 <!-- Runs a 'mission function' - for a list of these and how to use them, see the example mission file -->
-	 <RunFunction FunctionName="changeSong" FunctionValue="6" />
-
-	 <!-- Immediately loads a mission, replacing whatever's currently there and sending the email. -->
-	 <LoadMission MissionName="Missions/ExampleMission.xml" />
-    
-	 <!-- Creates a file with the listed content on the computer with ID targetComp, in the folder path specified.
-	 The folder specified must exist before this runs!
-	 The file contents field here doesn't support newlines or super long content - this is recommended for just creating items with wildcard data (like programs)
-	 For a complete list of wildcards, see the example computer file-->
-	 <AddAsset FileName="MemForensics.exe" FileContents="#MEM_FORENSICS_EXE#" TargetComp="advExamplePC" TargetFolderpath="bin" />
-  
-	 <!-- This copies a file from one computer to another.
-	 DestFilePath + DestComp are the DESTINATION computer - where the file will end up
-	 SourceFileName, SourceFilePath and SourceComp are the SOURCE computer - where the file exists and is taken from
-	 This will do nothing if the file does not exist to be copied.
-    
-	 This is very useful for adding complex files to a server after the session is created - create a new hidden server that's impossible to
-	 find, define all the files you want on there, then copy them over to where you want later. -->
-	 <CopyAsset DestFilePath="linkNode1" DestComp="advExamplePC" SourceComp="advExamplePC" SourceFileName="Test_File.txt" SourceFilePath="home" />
-  
-	 <!-- This adds a new mission to a hub server. This works for both missionHubServer servers (CSEC Style), missionListingServers (Entropy style)
-	 and also DHSDaemon servers (Bibliotheque style)-->
-	 <!-- CSEC Style: -->
-	 <AddMissionToHubServer MissionFilepath="Missions/TestExtensionMission1.xml" TargetComp="advExamplePC" />
-	 <!-- Bibliotheque Style: Assignment tag is who the mission starts assigned to of the server's user list. If this tag exists, the player cant claim the mission! -->
-	 <!-- note that adding a mission to an entropy style server, you can set the AssignmentTag to be "top" to add to the top of the list. Otherwise it'll be added to the bottom.-->
-	 <AddMissionToHubServer MissionFilepath="Missions/TestExtensionMission1.xml" TargetComp="advExamplePC" AssignmentTag="HA0"/>
-    
-	 <!-- This removes the mission from the hub server, if it exists. Works for all three specified above. -->
-	 <RemoveMissionFromHubServer MissionFilepath="Missions/TestExtensionMission1.xml" TargetComp="advExamplePC" />
-    
-	 <!-- Adds a thread to a /el message board - thread file should be a UFT-8 plaintext document. -->
-	 <AddThreadToMissionBoard ThreadFilepath="Nodes/MessageBoardThreads/ExampleThread1.txt" TargetComp="advExamplePC" />
-    
-	 <!-- Adds a message to a DHSDaemon or IRCDaemon IRC. Delay is seconds until the post appears. -->
-	 <AddIRCMessage Author="HA0" TargetComp="advExamplePC" Delay="3.0">Hey @#PLAYERNAME# - check out the new asset that got added a few lines ago.</AddIRCMessage>
-	 <AddIRCMessage Author="DependableSkeleton" TargetComp="advExamplePC" Delay="8.0">@channel this notifies everyone!</AddIRCMessage>
-    
-	 <!-- Crashes computer with the ID TargetComp. If this is "playerComp" it will crash the player's own computer (bluscreening it) instantly.
-	 If it's another computer, this will remove it from the netmap for 15 seconds or so, and disconnect the player if they were connected to it.
-	 The CrashSource is the ID of a computer that the crash log will point to.
-	 NOTE: Players are very likely to rm * entire log folders, so don't make this part of any critical path - it's almost impossible to find. Secrets only!
-    
-	 ,**** DelayHost is the ID of a computer that can host delayable actions. Valid computers need to have one of these daemons on them:
-	 IRCDaemon or DLCHubServer -->
-	 <CrashComputer TargetComp="linkNode1" CrashSource="advExamplePC" DelayHost="advExamplePC" Delay="5.5" />
-  
-	 <!-- Deletes a file from the target computer. Does nothing if that file does not exist. -->
-	 <DeleteFile TargetComp="advExamplePC" FilePath="bin" FileName="Binary_File" DelayHost="advExamplePC" Delay="5.5"/>
-    
-	 <!-- Loads in a new set of conditional actions from a file. Check out the file listed here for an explanation on what you can do with that -->
-	 <AddConditionalActions Filepath="ExampleConditionalActionSet.xml" DelayHost="advExamplePC" Delay="5.5"/>
-    
-	 <!-- Loads in the Hacker script defined below to execute 5.5 seconds from now, coming from source advExamplePC and targeting playerComp (The player node ID).
-	 These can target whatever you like, and be ally scripts! RequireLogsOnSource means that this will only execute if the source comp has logs on it from the player 
-	 deleting, moving, or copying a file. You can use the ID or the IP for the source and target - either works.
-	 RequireSourceIntact means that if the target is missing it's networking file from /sys, the hack wont happen. This means a crippled computer cant hack you back.-->
-	 <LaunchHackScript Filepath="HackerScripts/ExampleHack.txt" DelayHost="advExamplePC" Delay="5.5" SourceComp="advExamplePC" TargetComp="playerComp" RequireLogsOnSource="false" RequireSourceIntact="true"/>
-    
-	 <!-- Switches to the listed theme. You can specify any of the core Hacknet themes by name directly :
-	 TerminalOnlyBlack, HacknetBlue, HacknetTeal, HacknetYellow, HacknetWhite, HacknetPurple, HacknetMint, HackerGreen 
-	 Or you can specify a path to a custom theme file.-->
-	 <SwitchToTheme ThemePathOrName="Themes/ExampleTheme.xml" FlickerInDuration="3.0" DelayHost="advExamplePC" Delay="15.5" />
-
-	 <!-- Starts a 'screen bleed' effect! This is where the red line moves down from the top of the screen dramatically
-	 The title and the first 3 lines of the content of this tag are what's shown in the bottom left alert window.
-	 The CompleteAction conditional action set is run *only if* the red hits the bottom of the screen and the player runs out of time.
-	 "TotalDurationSeconds" is the total time it takes for the screen bleed to go from top to bottom.
-    
-	 I recommend syncing this up with various other conditions that allow you to cancel the effect if the player completes some task.-->
-	 <StartScreenBleedEffect AlertTitle="Title" CompleteAction="Actions/HackerScriptActions.xml" TotalDurationSeconds="12.5" DelayHost="advExamplePC" Delay="3.5">Line one
-     Line two
-     Line Three!</StartScreenBleedEffect>
-
-	 <!-- Cancels a screen bleed effect started with the tag above -->
-	 <CancelScreenBleedEffect DelayHost="advExamplePC" Delay="9.5" />
-    
-	 <!-- Appends the content of the tag onto the file specified. Useful for adding extra data into things, making the world feel more dynamic, adding people to whitelists etc. -->
-	 <AppendToFile DelayHost="advExamplePC" Delay="12.5" TargetComp="advExamplePC" TargetFolderpath="Whitelist" TargetFilename="list.txt">#PLAYER_IP#</AppendToFile>
-  
-	 <!-- Kills all exes that contain the string mentioned, or * for all.
-	 This is case insensitive. So the following would kill "SSHCrackExe",
-	 but changing it to "s" would kill all exes with an s in their name.
-    
-	 This is useful for doing things like killing ESequencer.exe once it's running,
-	 or having a rival hacker close all of the player's shells.-->
-	 <KillExe DelayHost="advExamplePC" Delay="15.5" ExeName="ssh" />
-  
-	 <!-- This is a big one - Changes the alert icon (top right) to point to a new server!
-	 Target is the ID of the server it should connect to.
-	 Type can be one of 4 options:
-	 mail, irc, irchub, board
-    
-	 Mail is a mail server, like Jmail. If you use this, the mail server that it points to *MUST HAVE A MAIL ACCOUNT FOR THE PLAYER*
-	 If it doesn't, it will crash when the player clicks on the icon and tries to go to their non-existent account.
-    
-	 irc is a standard IRC server. Whenever an IRC log with @#PLAYERNAME# or @Channel in it is added, the player will get a notification.
-	 Labyrinths users only.
-    
-	 irchub is a DLCHubServer like Labyrinths uses. Labyrinths players only.
-    
-	 board is a /el style message board. Whenever a message or thread is added that contains any other the above IRC mention strings, the player will be notified.
-    
-	 IMPORTANT NOTE: Changing the type to anything other than mail is only supported with the Hacknet Labyrinths DLC installed.
-	 -->
-	 <ChangeAlertIcon Target="advExamplePC" Type="mail" DelayHost="advExamplePC" Delay="9.5"/>
-
-
-	 <!-- Hides the target computer node from the netmap if it's visible -->
-	 <HideNode DelayHost="advExamplePC" Delay="15.5" TargetComp="advExamplePC" />
-
-	 <!-- Reveals this user account to the player so it's details show up in the autocomplete options when the player goes to log in. -->
-	 <GivePlayerUserAccount DelayHost="advExamplePC" Delay="15.5" TargetComp="advExamplePC" Username="mailGuy" />
-    
-	 <!-- Changes the IP Address of the computer with ID in targetComp to the new IP address provided -->
-	 <ChangeIP DelayHost="advExamplePC" Delay="15.5" TargetComp="advExamplePC" NewIP="111.111.123.124" />
-
-	 <!-- Changes the player's netmap sorting method, as if they had used NetmapOrganizer. Valid methods are:
-	 scatter,grid,seqgrid,CHAOS-->
-	 <ChangeNetmapSortMethod DelayHost="advExamplePC" Delay="18.5" Method="grid" />
-
-	 <!-- Saves the game! The player should be saved frequently, just incase their power dies or something. If you have extremely long missions
-	 without email replies or any other save triggers, use this to keep the player saved and up to date.-->
-	 <SaveGame DelayHost="advExamplePC" Delay="20.5"/>
-    
-       </Action>
-
-  
-       <!-- This action trigger as soon as the player is given the "decypher" flag -->
-       <Action Flags="decypher">
-	 <AddIRCMessage Author="DependableSkeleton" TargetComp="advExamplePC" Delay="8.0">decypher flag was added!</AddIRCMessage>
-       </Action>
-
-  
-       <!-- And this one only triggers once both the player has the flag, and the score is greater than or equal to the required value -->
+** Factions
+   Factions are really simple. A Faction file is a header line and a series of actions associated with the faction. Faction files are loaded in the [[*ExtensionInfo][ExtensionInfo]].xml file.
+   Factions are useful for sequencing events, launching Action sets and guiding the player to new things.
+*** CustomFaction
+    This is the first line in the faction's XML file. It provides a name, ID, and starting rank for the player.
+**** Attributes
+     + name
+       - The name of the faction
+     + id
+       - The ID of the faction, used to reference it elsewhere
+     + playerVal
+       - The starting rank of the player in the faction
+**** Example
+     #+BEGIN_SRC nxml
+       <CustomFaction name="Example Faction" id="examplefaction" playerVal="0">
+     #+END_SRC
+*** Action
+    Each Action tag in the Faction file dictates a set of actions to run under certain conditions as specified by the attributes. All attributes must be satisfied for the action to run.
+    [[*Action List][List of Actions]]
+**** Attributes
+     + ValueRequired
+       - The rank of the player needed for the action to trigger
+     + Flags
+       - A (presumably?) comma-separated list of flags needed for the action to trigger
+**** Example
+     #+BEGIN_SRC nxml
        <Action ValueRequired="5" Flags="decypher">
-	  <AddIRCMessage Author="DependableSkeleton" TargetComp="advExamplePC" Delay="-8.0">negative delay adds it instantly, and backdates the time to make it all fit.</AddIRCMessage>
+	    <!-- Some set of actions -->
        </Action>
+     #+END_SRC
+*** Example
+    Pastebin link: https://pastebin.com/n3i1faEe
+    Simplified contents:
+    #+BEGIN_SRC nxml
+      <CustomFaction name="Example Faction" id="examplefaction" playerVal="0">
+	<Action ValueRequired="1">
+	  <!-- Launch any actions here! -->
+	  <RunFunction FunctionName="changeSong" FunctionValue="6" />
+	  <!-- Multiple actions can be run! -->
+	  <RunFunction FunctionName="changeSong" FunctionValue="3" />
+	</Action>
 
-
-     </CustomFaction>
-   #+END_SRC
-   
+	<Action Flags="decypher">
+	  <AddIRCMessage Author="DependableSkeleton" TargetComp="advExamplePC"
+			 Delay="8.0">decypher flag was added!</AddIRCMessage>
+	</Action>
+  
+	<Action ValueRequired="5" Flags="decypher">
+	  <AddIRCMessage Author="DependableSkeleton" TargetComp="advExamplePC"
+			 Delay="-8.0"
+      > negative delay adds it instantly, and backdates the time to make it all fit.
+	  </AddIRCMessage>
+	</Action>
+      </CustomFaction>
+    #+END_SRC
 * Miscellaneous
 ** Custom Themes
+   Custom
 ** Music
 ** People System
 ** Websites
@@ -2911,3 +2857,4 @@ Simplified Contents:
 ** Hacker Scripts
 ** Debug Commands
 ** Publishing to Steam Workshop
+   See the [[*Workshop][Workshop section of ExtensionInfo]]
