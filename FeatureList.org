@@ -3,14 +3,20 @@
 #+EMAIL:joshuadunbrack@gmail.com
 #+LANGUAGE: en
 #+TITLE: Hacknet Extensions Guide, Beautified
-#+OPTIONS: email:t todo:nil ^:nil \n:t H:5 num:nil
+#+OPTIONS: email:t todo:nil ^:nil \n:t H:5 num:nil tex:verbatim
 #+HTML_HEAD: <script> var HS_STARTUP_FOLDED = true; </script>
 #+EXPORT_FILE_NAME: index.html
 * Document Notes
-  The raw XML has been modified (reformatted manually) to fit within 80 characters.
+  The raw XML of examples has been modified (reformatted manually) to fit within 80 characters.
   There are no guarantees that it still works, and may have different newlines than intended.
   As such, use the provided custom templates or the pastebin links as a starting point rather than the inline XML.
-* DONE ExtensionInfo
+
+  This guide was made by @Typodestoyer in the [[https://discord.gg/7cHhVT9][Hacknet Extensions Discord]] - message me if you have any corrections / updates. Or do it through [[https://github.com/Typodestoyer/Typodestoyer.github.io][GitHub]]; I haven't worked with attempting to incorporate public contributions before though, so I'm not quite sure how that works.
+
+  Any additional information or clarifications is welcomed and desired!
+
+  I hope this can help you develop a great extension! :D
+* ExtensionInfo
   Each categorized entry represents a child element of a HacknetExtension tag.
   Any included options are text inside of the element.
 ** General Info
@@ -65,6 +71,9 @@
    It will load in the conditional action file in ActionsToRunOnSequencerStart.
    However, the ActionsToRunOnSequencerStart activate instantly.
    Remember to delay any relevant actions in the set specified by the song intro you define!
+   
+   For the actions, note this comment from Duckman in the discord:
+   If your sequencer title has reversed characters, and you do not want this, type your title in ALL CAPS to un-reverse them.
 *** SequencerFlagRequiredForStart
     The flag that the player must have for the sequencer to be able to start.
 *** SequencerTargetID
@@ -188,7 +197,7 @@
 
      </HacknetExtension>
    #+END_SRC
-* DONE Computer
+* Computer
 ** Computer Tag Attributes
 *** id
     The id of the computer. Used to reference it elsewhere.
@@ -402,7 +411,8 @@
 *** tracker
     Does the player get hacked if they leave logs downloading/deleting files?
     Empty tag, no attributes or elements (<tracker />)
-    Attempts to reset player by default, or ETAS if "CSEC_Member" flag is attached.
+    Attempts to reset player by default, or ETAS if "[[*CSEC_Member][CSEC_Member]]" flag is attached.
+    This behavior /can be customized/ by creating a file TrackSequence.txt and placing it in the HackerScripts folder of your extension.
 **** Example
      #+BEGIN_SRC nxml
        <tracker />
@@ -672,30 +682,35 @@
 ** Base-Game Daemons
 *** deathRowDatabase
     Loads a preset collection of death row records.
+    Modifying (or creating) the dr_database/ServerDetails.txt file will override the Info section of the daemon; be careful about line breaks, however.
 **** Example
      #+BEGIN_SRC nxml
        <deathRowDatabase />
      #+END_SRC
 *** academicDatabase
-    Creates an academic database from the People.All list.
+    Creates an academic database from the [[*People System][People.All]] list.
+    Modifying (or creating) the academic_data/info.txt file will override the Info section of the daemon; be careful about line breaks, however.
 **** Example
      #+BEGIN_SRC nxml
        <academicDatabase />
      #+END_SRC
 *** ispSystem
     Creates an ISP system as used in ETAS.
+    Modifying (or creating) the home/ISP_About_Message.txt file will override the Info section of the daemon; be careful about line breaks, however.
 **** Example
      #+BEGIN_SRC nxml
        <ispSystem />
      #+END_SRC
 *** MedicalDatabase
-    Creates a medical database from the People.All list.
+    Creates a medical database from the [[*People System][People.All]] list.
+    Modifying (or creating) the home/MedicalDatabaseInfo.txt file will override the Info section of the daemon; be careful about line breaks, however.
 **** Example
      #+BEGIN_SRC nxml
        <MedicalDatabase />
      #+END_SRC
 *** uploadServerDaemon
     Allows files to be uploaded without admin permissions.
+    Modifying (or creating) the Drop/Server_Message.txt file will override the Info section of the daemon; be careful about line breaks, however.
 **** Attributes
      + name
        - The name the upload server shows to users
@@ -822,7 +837,7 @@
        <HeartMonitor patient="J_Stalvern"/>
      #+END_SRC
 *** PointClicker
-    Creates a PointClicker game from the People.All list.
+    Creates a PointClicker game from the [[*People System][People.All]] list.
 **** Example
      #+BEGIN_SRC nxml
        <PointClicker />
@@ -971,13 +986,13 @@
      #+END_SRC
 *** LogoDaemon
     Displays a big, fancy logo with optional messages. Spinner as logo by default.
-**** Attributes
+**** TODO Attributes
      + Name
        - The name of the LogoDaemon
      + ShowsTitle
        - Whether the name of the LogoDaemon is displayed
      + TextColor
-       - Transparency?,R,G,B string for the text color
+       - R,G,B,A string for the text color
      + LogoImagePath
        - A filepath to the image used for the logo
 **** Example
@@ -1590,7 +1605,7 @@
 
     </Computer>
   #+END_SRC
-* DONE Mission
+* Mission
   With the exception of the attributes and the example, every section here represents a tag in the mission XML file.
 ** Mission Tag Attributes
 *** id
@@ -1836,11 +1851,11 @@
      #+BEGIN_SRC nxml
        <goal type="getadminpasswordstring" target="advExamplePC"/>
      #+END_SRC
-** DONE missionStart/missionEnd
+** missionStart/missionEnd
    These tags define a function to run at the start or end of the mission.
    The sections (after Attributes) denote different function contents for this tag.
    Note that missionEnd will never run if the mission is abandoned or otherwise lost.
-*** DONE Attributes
+*** Attributes
     + val
       - An attribute that changes in meaning depending on the function
       - Holds an integer value to be passed to the specified function
@@ -1848,7 +1863,7 @@
       - If true, the missionStart will activate on mission send.
       - If false, it will activate on mission load.
 	* Hub missions are loaded when the save game is loaded or a new game is started.
-*** TODO setFaction:FACTION_ID
+*** setFaction:FACTION_ID
     Sets the player's faction to FACTION_ID
 *** addRank
     Adds "val" in rank to the current active faction.
@@ -2166,7 +2181,7 @@ Simplified Contents:
       </email>
     </mission>
 #+END_SRC
-* DONE Actions
+* Actions
   Actions can be triggered as:
   - [[*missionStart/missionEnd][MissionStart/MissionEnd]] functions
   - [[*Factions][Faction]] files checking for player rank or for a flag
@@ -2848,13 +2863,515 @@ Simplified Contents:
       </CustomFaction>
     #+END_SRC
 * Miscellaneous
-** Custom Themes
-   Custom
+** TODO Custom Themes
+   Custom themes are highly configurable in Hacknet. Colors are defined as R,G,B,A, with A representing opacity (255 is completely solid, 0 is adding to beneath pixel). Check the example for the full list of color tags. I don't recommend manually creating the file. I found a program that does it interactively, but I haven't been able to track down the link, so if anyone has found that, let me know.
+   You can specify a background image manually or allow one to be auto-generated.
+   You can use a few different layouts, specified by the theme that originally used it:
+
+   Relevant Links:
+   + [[*customthemefile][CustomThemeFile]]
+   + [[*SwitchToTheme][SwitchToTheme]]
+*** Layout Types
+   + blue
+   + green
+   + white
+   + mint
+   + greencompact
+   + riptide
+   + colamaeleon
+   + riptide2
+*** Example
+   #+BEGIN_SRC nxml
+     <CustomTheme>
+       <!-- This defines the layout of the windows. The valid choices are: blue,
+	    green, white, mint, greencompact, riptide, colamaeleon and riptide2,
+	    corresponding to the themes of those colors in the base game-->
+       <themeLayoutName>mint</themeLayoutName>
+
+       <!-- This is a path to the background image file. It should be 1920x1080, and
+	    a .jpg or .png file.  If this is left out, the theme will automatically
+	    generate a dynamic background for the theme-->
+       <backgroundImagePath>Themes/Backgrounds/RiptideGreen.png</backgroundImagePath>
+  
+       <!-- If this is set to false, the background image will stretch to fill the
+	    background area.  If true, the background will be drawn aspect ratio
+	    correct in the middle of the screen, with the backgroundImageFillColor
+	    behind it.-->
+       <UseAspectPreserveBackgroundScaling>false</UseAspectPreserveBackgroundScaling>
+       <BackgroundImageFillColor>0,0,0</BackgroundImageFillColor>
+
+       <!-- Main Colors - these will define the main feel of the theme -->
+       <!-- Color of nodes on the netmap, and many other derived colors. -->
+       <defaultHighlightColor>255,41,63</defaultHighlightColor>
+       <defaultTopBarColor>74,7,14,255</defaultTopBarColor>
+       <!-- This is used for the outlines of the module windows -->
+       <moduleColorSolidDefault>0,204,132</moduleColorSolidDefault>
+       <moduleColorStrong>14,40,25,80</moduleColorStrong>
+       <moduleColorBacking>5,7,6,10</moduleColorBacking>
+
+       <exeModuleTopBar>130,65,27,80</exeModuleTopBar> 
+       <exeModuleTitleText>155,85,37,0</exeModuleTitleText>
+
+       <!-- Extra Options -->
+       <warningColor>255,0,0</warningColor>
+       <subtleTextColor>90,90,90</subtleTextColor>
+       <darkBackgroundColor>8,8,8</darkBackgroundColor>
+       <indentBackgroundColor>12,12,12</indentBackgroundColor>
+       <outlineColor>68,68,68</outlineColor>
+       <lockedColor>65,16,16,200</lockedColor>
+       <brightLockedColor>160,0,0</brightLockedColor>
+       <brightUnlockedColor>0,160,0</brightUnlockedColor>
+       <unlockedColor>39,65,36</unlockedColor>
+       <lightGray>180,180,180</lightGray>
+       <shellColor>222,201,24</shellColor>
+       <shellButtonColor>105,167,188</shellButtonColor>
+       <semiTransText>120,120,120,0</semiTransText>
+       <terminalTextColor>213,245,255</terminalTextColor>
+       <topBarTextColor>126,126,126,100</topBarTextColor>
+       <superLightWhite>2,2,2,30</superLightWhite>
+       <connectedNodeHighlight>222,0,0,195</connectedNodeHighlight>
+       <netmapToolTipColor>213,245,255,0</netmapToolTipColor>
+       <netmapToolTipBackground>0,0,0,70</netmapToolTipBackground>
+       <topBarIconsColor>255,255,255</topBarIconsColor>
+       <thisComputerNode>95,220,83</thisComputerNode>
+       <scanlinesColor>255,255,255,15</scanlinesColor>
+  
+       <!-- AlienFX Colors used for Alienware (and other) hardware with variable LED
+	    lights that Hacknet can set dynamically -->
+       <AFX_KeyboardMiddle>0,120,255</AFX_KeyboardMiddle>
+       <AFX_KeyboardOuter>255,150,0</AFX_KeyboardOuter>
+       <AFX_WordLogo>0,120,255</AFX_WordLogo>
+       <AFX_Other>0,100,255</AFX_Other>
+     </CustomTheme>
+   #+END_SRC
 ** Music
+   Custom music has been discussed elsewhere.
+   - [[*playCustomSong:Path/To/Song.ogg][playCustomSong]]
+   - [[*playCustomSongImmediatley:Path/To/Song.ogg][playCustomSongImmediatley]]
+   - [[*RunFunction][RunFunction]]
 ** People System
+   Some daemons use the People system. Adding person descriptor files to the /People folder means that the person will be added to relevant servers. Hacknet will generate random people if you do not do so.
+   
+   The People system is used for:
+   - [[*DatabaseDaemon][DatabaseDaemon]]
+   - [[*academicDatabase][academicDatabase]]
+   - [[*MedicalDatabase][MedicalDatabase]]
+   - [[*PointClicker][PointClicker]]
+   - JMail junk accounts
+*** Attributes
+    + id
+      - An ID for the person (currently unused)
+    + handle
+      - The online handle of the user. Used for account name for PointClicker/Neopals.
+    + firstName
+      - The person's first name
+    + lastName
+      - The person's last name
+    + isMale
+      - Whether the person is male
+    + forceHasNeopals
+      - Ensure that this person has a Neopals account if true
+**** Example
+     #+BEGIN_SRC nxml
+       <Person
+	   id="personID"
+	   handle="tester"
+	   firstName="Joe"
+	   lastName="Citizen"
+	   isMale="true"
+	   forceHasNeopals="true">
+     #+END_SRC
+*** Birthplace
+**** Attributes
+     + name
+       - The city (or other location) in which the person was born
+**** Example
+     #+BEGIN_SRC nxml
+       <Birthplace name="Califonia" />
+     #+END_SRC
+*** Degrees
+    This tag contains one or multiple Degree tags. The contents of the Degree tag detail the type of degree. This tag is used for the [[*academicDatabase][academicDatabase]] daemon.
+**** <Degree> attributes
+     + uni
+       - The university providing the degree
+     + gpa
+       - The gpa associated with the degree
+**** Example
+     #+BEGIN_SRC nxml
+       <Degrees>
+	 <Degree
+	     uni="University of California"
+	     gpa="3.2">Bachelor of Software Engineering</Degree>
+	 <Degree
+	     uni="University of California"
+	     gpa="3.4">Bachelor of Business Management</Degree>
+       </Degrees>
+     #+END_SRC
+*** Medical
+    This tag is used for the [[*MedicalDatabase][MedicalDatabase]] daemon. It has internal tags with text contents.
+**** Internal Tags
+     + Blood
+       - The blood type of the person
+     + Height
+       - The height of the person, in cm
+     + Allergies
+       - A comma-separated list of the person's allergies
+     + Prescription
+       - Perscriptions that the person has
+       - Multiple perscription tags supported
+     + Notes
+       - Notes that show up in the medical record
+       - Reasonable spot to hide IP addresses/passwords
+**** Example
+     #+BEGIN_SRC nxml
+       <Medical>
+	 <Blood>AA</Blood>
+	 <Height>178</Height> <!-- Height in cm -->
+	 <Allergies>Commas,Separate,Allergies</Allergies>
+	 <Perscription>Spironolactone x70 bi-monthly</Perscription>
+	 <Perscription>You can write whatever you want here!</Perscription>
+  
+	 <Notes>These notes show up in the medical record too.
+	 You can include IP addresses and passwords etc here if you want.</Notes>
+       </Medical>
+     #+END_SRC
+*** DOB
+    This tag has a single string as its contents representing the date.
+    Format is: DD/MM/YYYY HH:MM:SS
+**** Example
+     #+BEGIN_SRC nxml
+       <DOB>17/02/1990 09:00:00</DOB>
+     #+END_SRC
+*** Notes
+    These notes are not used in-game; they simply allow you to keep notes for yourself.
+**** Example
+     #+BEGIN_SRC nxml
+       <Notes>These notes are never used in-game, but can be handy to keep track of
+	      stuff for your own purposes.</Notes>
+     #+END_SRC
+*** Example
+    #+BEGIN_SRC nxml
+      <?xml version = "1.0" encoding = "UTF-8" ?>
+      <Person
+	  id="personID"
+	  handle="tester"
+	  firstName="Joe"
+	  lastName="Citizen"
+	  isMale="true"
+	  forceHasNeopals="true">
+	<!-- ID is not used yet, but may be used in the future for reference
+	     stuff. Handle is this person's account name for things like PointClicker
+	     and neopals.
+
+	     forceHasNeopals set to true guarantees they will have a neopals account
+	     generated. Otherwise it's random.-->
+
+	<!-- Any string works here, but it's designed to accept a city name -->
+	<Birthplace name="Califonia" />
+
+	  <!-- You can add as many degrees as you like here - these show up on the academic database-->
+	<Degrees>
+	  <Degree
+	      uni="University of California"
+	      gpa="3.2">Bachelor of Software Engineering</Degree>
+	  <Degree
+	      uni="University of California"
+	      gpa="3.4">Bachelor of Business Management</Degree>
+	</Degrees>
+
+	<!-- This info shows up in the medical database-->
+	<Medical>
+	  <Blood>AA</Blood>
+	  <Height>178</Height> <!-- Height in cm -->
+	  <Allergies>Commas,Separate,Allergies</Allergies>
+	  <Perscription>Spironolactone x70 bi-monthly ::
+	  Aldosterone Inhibitor as a cardiac regulator</Perscription>
+	  <Perscription>You can write whatever you want here!</Perscription>
+
+	  <Notes>These notes show up in the medical record too. You can include
+	  IP addresses and passwords etc here if you want.</Notes>
+	</Medical>
+
+	<!-- date and time of birth - used in medical records
+	Format is: DD/MM/YYYY HH:MM:SS-->
+	<DOB>17/02/1990 09:00:00</DOB>
+
+	<Notes>These notes are never used in-game, but can be handy to keep
+	track of stuff for your own purposes.</Notes>
+      </Person>
+    #+END_SRC
 ** Websites
-** Replacing Jmail, ISP, Player
+   Websites can be displayed using a [[*addWebServer][WebServer]] daemon, but do have issues. I'm just going to quote the original Steam guide for this one.
+
+   Websites. The porting nightmare. The buggy mess. The endless hacks.
+   These have been nothing but nightmares from day 1, and due to apparently all web rendering services that work cross platform being buggy as anything, many players use the -disableweb launch argument, preventing websites from rendering.
+   *This means you need to make 100% sure that your missions are completable from these people reading the source of the website*.
+   Websites in Hacknet are restricted to being in only one folder for security reasons, so *everything* you reference within your websites needs to be relative to Web/Cache within your extension folder.
+   Before you look into the files, first visit the website itself, linked below.
+   Your websites themselves (the HTML files) can be stored wherever you like within your extension folder, but all images and .css files you reference must be within the /Web/Cache folder (or a subfolder therein).
+   Note that websites have a few rendering issues (like stretching for some resolutions and themes). I'll work these kinks out as much as possible before launch, but they may remain, so try to design around them.
+   
+   Steps to creating a website:
+   1) Create your website HTML file wherever you like.
+   2) Add all images and CSS files that you want to use in it to the folder Web/Cache or a subfolder inside of it.
+   3) Reference those assets using relative paths only within the website.
+   4) Add a web server daemon to your node with the URL pointing to your html file.
+*** Template
+   #+BEGIN_SRC html
+     <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+     <html>
+       <head>
+	 <!-- put stylesheet references here -->
+	 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	 <link rel="stylesheet" href="<FILEPATH HERE>" type="text/css" charset="utf-8" />
+       <head>
+	 <body>
+	   <img src="<FILEPATH HERE>">
+	 </body>
+     </html>
+   #+END_SRC
+** Special Computers (Jmail, ISP, Player)
+   Each of these things is assigned via specific ID.
+*** Jmail
+    Jmail can be replaced by setting the ID of any computer to be "jmail". This will be the default reference for the mail icon, unless you [[*ChangeAlertIcon][change it to something else]].
+    
+    This server must have two things:
+    1) A [[*mailServer][MailServer]] daemon
+    2) A [[*account][mail account for the player]]
+    It can also have additional mail accounts as in the main game.
+**** Example
+     #+BEGIN_SRC nxml
+       <account username="#PLAYERNAME#" password="reptile" type="mail" />
+       <mailServer name="Example Mail Server" color="50,237,212">
+       </mailServer>
+     #+END_SRC
+*** Player Computer
+    The player computer can be overwritten by setting the ID of any computer to be "playerComp". Note that this is *always* the ID of the player computer, for referencing it elsewhere by ID.
+    There are no special requirements for the player computer, but creating it explicitly may mean that it is not in the normal spot on the netmap.
+*** ISP
+    Simply make a computer with the id "ispComp" and an [[*ispSystem][ispSystem]] daemon.
+** Special Flags
+   Certain flags are added/removed by the game independently of extension development.
+*** BootFailure
+    This flag is added after rebooting playerComp with at least one system file missing from ~/sys folder.
+*** BootFailureThemeSongChange
+    This flag is added after recovering playerComp after BootFailure (only works when x-server.sys is missing from ~/sys folder!). The song changes to "The_Quickening" after reboot.
+*** clock_run_Unlocked
+    This flag is added after launching Clock.exe (aka #CLOCK_PROGRAM#) for the first time.
+    If the flag is removed via actions it can be added again by relaunching Clock.exe
+*** CSEC_Member
+    This flag enables ETAS sequencer for the player whenever they are getting traced by active trace or instanttrace hacker script.
+*** dlc_complete
+    This flag is added after beating Labyrinths DLC in the base game. In Extension it can be used to instantly roll the credits of the CreditsDaemon (the actions that are supposed to run after running credits will not execute!).
+    Adding this flag also prevents the Roll Credits button from reappearing after reloading the save file.
+*** DLC_Player_IRC_Authenticated
+    This flag is added after connecting to a computer with the DHSDaemon for the first time. If it is added before connecting, the whitelist add sequence won't appear. If the flag is removed after the whitelist add sequence it can be repeated only if the save file is reloaded.
+*** kill_tutorial_Unlocked
+    This flag is added after killing the Tutorial program.
+*** pointclicker_basic_Unlocked
+    This flag is added after purchasing the 50th upgrade in PointClicker.
+*** pointclicker_expert_Unlocked
+    This flag is added after obtaining a negative amount of points in PointClicker.
+*** themeswitch_run_Unlocked
+    This flag is added after launching ThemeChanger.exe for the first time. Changing theme is NOT required.
+*** trace_close_Unlocked
+    This flag is added after disconnecting from a traced node with half a second to spare.
+*** VaporSequencerEnabled
+    This flag enables the default Sequencer.exe (aka #SEQUENCER_EXE#); connects to computer with id EnTechOfflineBackup and changes wallpaper upon spin up. If such a computer doesn't exist, a screenbleed appears without any text.
 ** Hacker Scripts
+   Hacker scripts support a variety of commands in addition to the standard terminal commands..
+   Every line should end with $#%#$
+   Hacker scripts do suppport [[*(Misc) Wildcard List][wildcards]].
+*** config [TARGET_COMP] [SOURCE_COMP] delay_amt
+    This line configures the script's target and source computers as well as the default delay between script actions (in seconds).
+    Leaving [TARGET_COMP] and [SOURCE_COMP] without specifying IPs allows the script to be used dynamically, instead specifying the IP (or ID) at calltime with [[*LaunchHackScript][LaunchHackScript]].
+**** Example
+     #+BEGIN_SRC 
+       config [TARGET_COMP] [SOURCE_COMP] 0.2 $#%#$
+       config 123.123.123.123 124.124.124.124 0.2 $#%#$
+     #+END_SRC
+*** write
+    Writes text to the terminal, on the same line as previous writes. Beep and flash on write.
+*** writel
+    Writes text to the terminal on a new line. Beep and flash on write.
+*** write_silent
+    Writes text to the terminal, on the same line as previous writes. No beep and flash on write.
+*** writel_silent
+    Writes text to the terminal on a new line. No beep and flash on write.
+*** connect
+    Connects from the source computer to the target computer.
+*** delay delay_amt
+    Pauses the script for delay_amt seconds.
+*** openPort port_num
+    Opens the port on the target machine.
+*** stopMusic
+    Stops the player's music if they are the target.
+*** startMusic
+    Restarts the player's music if it's stopped and they are the target.
+*** clearTerminal
+    Clear the terminal of the player, if they are the target.
+*** hideNetMap
+    Hide the netmap of the player if they are the target.
+    Note that this will need to be unhidden for the player to be able to use them again.
+*** hideRam
+    Hide the RAM of the player if they are the target.
+    Note that this will need to be unhidden for the player to be able to use them again.
+*** hideDisplay
+    Hide the display of the player if they are the target.
+    Note that this will need to be unhidden for the player to be able to use them again.
+*** hideTerminal
+    Not sure if this exists, but dunno why showTerminal exists otherwise, so...
+    Hide the terminal of the player, if they are the target.
+    Note that this will need to be unhidden for the player to be able to use them again.
+*** showNetMap
+    Show the netmap of the player, if they are the target.
+*** showRam
+    Show the RAM of the player, if they are the target.
+*** showDisplay
+    Show the display of the player, if they are the target.
+*** showTerminal
+    Show the terminal of the player, if they are the target.
+*** trackseq
+    Flags it such that the player will have to do the ETAS if they fail the next forkbomb that they receive, if they have the CSEC flag $#%#$
+*** instanttrace
+    Instantly begins the ETAS for the player.
+*** forkbomb
+    Forkbombs the target, crashing the computer instantly unless the player is the target.
+*** flash
+    Creates a dramatic UI flash if the player is the target.
+*** delete /path file.ext
+    Deletes the file at the given folderpath with the given name. Supports * to wipe a folder.
+*** setAdminPass newpass
+    Changes the admin password to be the newpass.
+*** makeFile folder file.exe contents
+    Creates a file in the given folder with the given name, filled with the contents.
+    Notes:
+    + Contents can only be a single line of text
+    + Use [[*(Misc) Wildcard List][wildcards]] to add executable programs
+    + This cannot do subfolders
+*** disconnect
+    Disconnects the source computer from the target computer.
+*** Example
+    #+BEGIN_SRC
+      config [TARGET_COMP] [SOURCE_COMP] 0.2 $#%#$
+      writel The 0.2 at the end of the line above this one is the baseline delay between actions in the script $#%#$
+      writel you can hardcode in source and target ip addresses above if you want, but this lets you use the script more dynamically. $#%#$
+
+      connect $#%#$
+      writel connect will connect from the source comp the the target comp $#%#$
+
+      delay 2 $#%#$
+      writel delay will pause execution for that many seconds. In this case, 2. $#%#$
+
+      openPort 21 $#%#$
+      writel Opens a port on the target! $#%#$
+
+      stopMusic $#%#$
+      writel Stops the music of the player, if they are the target. $#%#$
+
+      startMusic $#%#$
+      writel Starts the music of the player, if stopped, and they are the target. $#%#$
+
+      clearTerminal $#%#$
+      writel Clear the terminal of the player, if they are the target. $#%#$
+
+      write WHO $#%#$
+      write DO $#%#$
+      write YOU $#%#$
+      write THINK $#%#$
+      write YOU $#%#$
+      write ARE $#%#$
+      write ? $#%#$
+      writel You can write out to terminal onto the same line like that above, or a full line like this one! $#%#$
+
+      write_silent Shhhh $#%#$
+      writel_silent these two let you write thigns without the beeps and flashes $#%#$
+
+      writel $#%#$
+      writel An empty writeline just pushes out newlines to the terminal. Looks cool. $#%#$
+
+      hideNetMap $#%#$
+      hideRam $#%#$
+      hideDisplay $#%#$
+      writel These commands hide stuff if the player is connected to them. BE VERY CAREFUL WITH THIS - player cant get it back alone. $#%#$
+
+      showNetMap $#%#$
+      showRam $#%#$
+      showDisplay $#%#$
+      showTerminal $#%#$
+      writel These commands bring the windows back $#%#$
+
+      trackseq $#%#$
+      writel This flags it so that the player will have to do the ETAS if they fail the next forkbomb that they receive, if they have the CSEC flag $#%#$
+
+      instanttrace $#%#$
+      writel This is a brutal command that instantly starts the ETAS for the player $#%#$
+
+      forkbomb $#%#$
+      writel Launches a forkbomb on the target. Crashing it instantly if non-player. $#%#$
+
+      flash $#%#$
+      writel Flashes the UI in a dramatic way, if targeting the player $#%#$
+
+      delete /sys x-server.sys $#%#$
+      writel Deletes a file. You can specify any folder and file here, or * for all files in that folder. $#%#$
+
+      setAdminPass newpass  $#%#$
+      writel Sets the admin password of this computer to be 'newpass' or whatever you set that to. $#%#$
+
+      makeFile home Filename.txt Everything past the first space there goes into the file! $#%#$
+      writel Makes a new file in the folder named in the first argument (cant do subfolders, sorry) with the name FIlename.txt and the shown content $#%#$
+
+      makeFile bin SSHCrack.exe #SSH_CRACK# $#%#$
+      writel You can add programs like this. See the full list of wildcard names in ExampleComputer.xml $#%#$
+
+      openCDTray $#%#$
+      writel YEP! $#%#$
+
+      delay 5 $#%#$
+
+      closeCDTray $#%#$
+
+      disconnect $#%#$
+    #+END_SRC
 ** Debug Commands
-** Publishing to Steam Workshop
-   See the [[*Workshop][Workshop section of ExtensionInfo]]
+   Certain options can be configured to make the development experience more streamlined.
+*** Launch Options
+**** -extstart [EXTENSION_FOLDER_NAME]
+     Autostart the target extension when opening Hacknet.
+**** -altmonitor
+     Start Hacknet on your second monitor
+**** -enablefc
+     Turn on force complete.
+**** -enabledebug
+     Enable the debug terminal commands (below)
+**** -allowextpublish
+     Enable publishing tools on your extension page.
+*** Terminal Commands
+**** fh
+     Instantly break into any computer
+**** dscan [ID]
+     Reveal a computer on the netmap
+**** ra
+     Show all computers on the netmap
+**** reloadext
+     Reload all nodes in the current extension from source and update them in the current save file
+**** reloadtheme
+     Reload the currently active theme and check any changes
+**** printflags
+     Output all active flags to the terminal
+**** runhackscript Script/Path/Name.txt
+     Run the script at the path specified, printing script errors to the terminal
+** Publishing Guidelines
+   - Publish from your extension page after [[*-allowextpublish][using the proper launch option]]
+   - Suggestion: make the extension private at first to polish over details on your workshop page before making it public
+   - Check whether you need Labyrinths to play the extension, and mention it as a requirement if so
+     - Best way to be sure is to play through it without Labyrinths if it is possible
+   - Publish to Nexus as well as Steam for DRM-free players at https://www.nexusmods.com/hacknet
+* Other Resources
+  + [[https://discord.gg/7cHhVT9][Hacknet Extensions Discord]]
+  + [[https://steamcommunity.com/sharedfiles/filedetails/?id=914587661][Hacknet Extensions Steam Guide]]
+  + Hacknet Theme Editor (To be found)
+  + [[https://marketplace.visualstudio.com/items?itemName=Smartie.hacknet-vscode][Hacknet for Visual Studio Code]]
+  + If you have any other resources, @ me on the Extensions discord!
